@@ -42,3 +42,4 @@ testem.log
 Thumbs.db
 
 environment.sh
+package-lock.json
