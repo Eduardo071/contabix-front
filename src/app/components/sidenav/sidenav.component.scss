@@ -12,3 +12,19 @@
     width: 80px;
   }
 }
+
+.icon{
+  height: 40px;
+  width: 40px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 25px;
+  cursor: pointer;
+  transition: all 0.2s;
+
+  &:hover{
+    background-color: #bbf7d0;
+  }
+}

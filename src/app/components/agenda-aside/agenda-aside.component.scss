@@ -1,0 +1,75 @@
+.aside {
+  min-height: 100vh;
+  padding: 6px;
+  max-height: 100%;
+  border-top-left-radius: 20px;
+  background-color: #f3f4f6;
+
+  -webkit-box-shadow: 1px 1px 3px 1px rgba(0, 0, 0, 0.75);
+  -moz-box-shadow: 1px 1px 3px 1px rgba(0, 0, 0, 0.75);
+  box-shadow: 1px 1px 3px 1px rgba(0, 0, 0, 0.75);
+}
+
+.aside_header {
+  padding: 8px;
+}
+
+.agenda-container {
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+  align-items: flex-start;
+  gap: 10px;
+  width: 100%;
+}
+
+.agenda-item {
+  width: 100%;
+  list-style: none;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.agenda-infos {
+  padding: 2px 6px;
+  background-color: #c4eaac;
+  border-radius: 6px;
+  max-width: 200px; /* Ajuste conforme o espaço disponível */
+
+  h4 {
+    font-size: 14px;
+    color: #022c22;
+    font-weight: 600;
+  }
+
+  p {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 100%; /* O <p> ocupará todo o espaço disponível */
+    max-width: 180px; /* Controle direto do corte */
+  }
+}
+
+.agenda-separator {
+  background-color: #4d7c0f; /* Cor vermelha mais suave */
+  width: 5px;
+  height: 76px;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.2); /* Sombra sutil */
+  border-radius: 4px; /* Cantos arredondados */
+}
+
+.agenda-date{
+  height: 76px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 2px 6px;
+  background-color: #E0F4D3;
+  border-radius: 6px;
+
+ color: #065F46;font-weight: 600;
+}
