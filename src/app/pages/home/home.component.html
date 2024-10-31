@@ -1,8 +1,29 @@
 <div class="container">
   <app-sidenav></app-sidenav>
   <main class="main">
-    <p>teste</p>
+    <section class="main-content">
+      <mat-card appearance="outlined" class="card-welcome">
+        <div>
+          <header>
+            <p>Bem vindo!</p>
+            <h2>Jonh Doe</h2>
+          </header>
 
-   <app-agenda-aside></app-agenda-aside>
+          <footer>
+            <mat-icon
+              aria-hidden="false"
+              aria-label="Example home icon"
+              fontIcon="notifications"
+            ></mat-icon>
+
+            <button mat-raised-button>Basic</button>
+          </footer>
+        </div>
+
+        <div></div>
+      </mat-card>
+    </section>
+
+    <app-agenda-aside></app-agenda-aside>
   </main>
 </div>

@@ -9,4 +9,21 @@
   width: 100%;
   display: grid;
   grid-template-columns: 1fr 300px;
+  background-color: #F5F5F5;
+}
+
+.main-content{
+  padding: 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.card-welcome{
+  margin-top: 20px;
+  width: 100%;
+  max-width: 800px;
+  background-color: #fff;
+  border-radius: 12px;
+  height: 200px;
 }
