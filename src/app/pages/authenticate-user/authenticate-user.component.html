@@ -5,7 +5,7 @@
     </header>
     <div class="container-title-form">
       <h1 class="text-action-form">{{ textActionForm }}</h1>
-      <form [formGroup]="userAuthForm" class="form-section">
+      <form [formGroup]="userAuthForm" class="user-form">
         <mat-form-field class="input-form-field" *ngIf="isLogin">
           <mat-label>Usuário</mat-label>
           <input
@@ -14,10 +14,9 @@
             required
             formControlName="usuario"
           />
-          <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
         </mat-form-field>
 
-        <mat-form-field *ngIf="!isLogin">
+        <mat-form-field *ngIf="!isLogin" class="input-form-field">
           <mat-label>Selecione</mat-label>
           <mat-select
             required
@@ -40,10 +39,12 @@
             required
             formControlName="nome"
           />
-          <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
         </mat-form-field>
 
-        <mat-form-field class="input-form-field" *ngIf="!isLogin && userAuthForm.get('id_tipo_usuario')?.value == 1">
+        <mat-form-field
+          class="input-form-field"
+          *ngIf="!isLogin && userAuthForm.get('id_tipo_usuario')?.value == 1"
+        >
           <mat-label>Email</mat-label>
           <input
             matInput
@@ -51,13 +52,14 @@
             required
             formControlName="email"
           />
-          <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
         </mat-form-field>
 
-        <mat-form-field class="input-form-field" *ngIf="!isLogin && userAuthForm.get('id_tipo_usuario')?.value == 2">
+        <mat-form-field
+          class="input-form-field"
+          *ngIf="!isLogin && userAuthForm.get('id_tipo_usuario')?.value == 2"
+        >
           <mat-label>Cnpj</mat-label>
           <input matInput placeholder="Cnpj" required formControlName="cnpj" />
-          <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
         </mat-form-field>
 
         <mat-form-field class="input-form-field">
@@ -68,10 +70,9 @@
             required
             formControlName="senha"
           />
-          <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
         </mat-form-field>
 
-        <button mat-button (click)="handleClickSubmitButton()">
+        <button mat-button (click)="handleClickSubmitButton()" color="black" class="button-submit">
           {{ labelSubmitButton }}
         </button>
       </form>
@@ -79,9 +80,14 @@
       <button mat-button (click)="handleClickFlowChangeButton()">
         {{ labelFlowChangeButton }}
       </button>
-
     </div>
     <footer class="footer"><p>contabix©2024</p></footer>
   </section>
-  <section class="background-section"><img src="../../../assets/background-auth.jpg" alt="background green triangles"></section>
+  <section class="background-section">
+    <img
+      src="../../../assets/background-auth.jpg"
+      alt="background green triangles"
+      class="image-background"
+    />
+  </section>
 </main>

@@ -100,12 +100,16 @@ export class AuthenticateUserComponent implements OnInit {
 
   handleUserTypeSelection(clearUnusedAtributes?: boolean) {
     if (this.userAuthForm?.get('id_tipo_usuario')?.value == 1) {
-      this.userAuthForm.addControl('email', this.fb.control(null));
+      if (!this.userAuthForm.contains('email')) {
+        this.userAuthForm.addControl('email', this.fb.control(null));
+      }
       if (this.userAuthForm?.contains('cnpj') && clearUnusedAtributes) {
         this.userAuthForm.removeControl('cnpj');
       }
     } else if (this.userAuthForm?.get('id_tipo_usuario')?.value == 2) {
-      this.userAuthForm.addControl('cnpj', this.fb.control(null));
+      if (!this.userAuthForm.contains('cnpj')) {
+        this.userAuthForm.addControl('cnpj', this.fb.control(null));
+      }
       if (this.userAuthForm?.contains('email') && clearUnusedAtributes) {
         this.userAuthForm.removeControl('email');
       }
