@@ -6,7 +6,10 @@ import {
   MAT_FORM_FIELD_DEFAULT_OPTIONS,
   MatFormFieldModule,
 } from '@angular/material/form-field';
-import { UserTypesInterface } from '../../interfaces/user.interface';
+import {
+  UserDataInterface,
+  UserTypesInterface,
+} from '../../interfaces/user.interface';
 import {
   FormBuilder,
   FormGroup,
@@ -16,6 +19,11 @@ import {
 } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
+import { AuthenticateUserService } from '../../services/authenticate-user.service';
+import { NgxMaskDirective } from 'ngx-mask';
+import { HttpClient } from '@angular/common/http';
+import { Router } from '@angular/router';
+import { SweetAlertService } from '../../shared/services/sweet-alert-service.service';
 
 @Component({
   selector: 'app-authenticate-user',
@@ -29,6 +37,7 @@ import { MatButtonModule } from '@angular/material/button';
     CommonModule,
     FormsModule,
     MatButtonModule,
+    NgxMaskDirective,
   ],
   providers: [
     {
@@ -37,6 +46,7 @@ import { MatButtonModule } from '@angular/material/button';
     },
     ReactiveFormsModule,
     CommonModule,
+    HttpClient,
   ],
   templateUrl: './authenticate-user.component.html',
   styleUrl: './authenticate-user.component.scss',
@@ -48,11 +58,22 @@ export class AuthenticateUserComponent implements OnInit {
   userAuthForm!: FormGroup;
   labelFlowChangeButton!: string;
   labelSubmitButton!: string;
+  usuarioMask: string | null = null;
 
-  constructor(private readonly fb: FormBuilder) {}
+  constructor(
+    private readonly fb: FormBuilder,
+    private readonly authenticateUserService: AuthenticateUserService,
+    private readonly sweetAlertService: SweetAlertService,
+    private readonly router: Router
+  ) {}
 
   ngOnInit(): void {
     this.handleFormMode();
+    if (this.isLogin && this.usuarioMask === null) {
+      this.userAuthForm.get('usuario')?.valueChanges.subscribe((value) => {
+        this.updateUsuarioMask(value);
+      });
+    }
   }
 
   setTextActionForm(text: string) {
@@ -84,6 +105,7 @@ export class AuthenticateUserComponent implements OnInit {
         senha: [null, Validators.required],
       });
     } else if (!this.isLogin) {
+      this.usuarioMask = null;
       this.setTextActionForm('Criar conta');
       this.setLabelSubmitButton('CRIAR');
       this.setLabelFlowChangeButton('Já possui conta? Entre!');
@@ -116,12 +138,73 @@ export class AuthenticateUserComponent implements OnInit {
     }
   }
 
+  updateUsuarioMask(value: string) {
+    const isNumeric = /\d/.test(value);
+    this.usuarioMask = isNumeric ? '00.000.000/0000-00' : null;
+  }
+
   handleClickFlowChangeButton() {
     this.isLogin = !this.isLogin;
     this.handleFormMode();
+
+    if (this.isLogin && this.usuarioMask === null) {
+      this.userAuthForm.get('usuario')?.valueChanges.subscribe((value) => {
+        this.updateUsuarioMask(value);
+      });
+    }
   }
 
   handleClickSubmitButton() {
-    throw new Error('Method not implemented.');
+    let userData: Partial<UserDataInterface> = {};
+
+    if (this.isLogin) {
+      const usuarioValue = this.userAuthForm.get('usuario')?.value;
+      if (this.usuarioMask === '00.000.000/0000-00') {
+        userData = {
+          cnpj: usuarioValue,
+          senha: this.userAuthForm.get('senha')?.value,
+        };
+      } else {
+        userData = {
+          email: usuarioValue,
+          senha: this.userAuthForm.get('senha')?.value,
+        };
+      }
+    } else {
+      const idTipoUsuario = this.userAuthForm.get('id_tipo_usuario')?.value;
+      userData = {
+        id_tipo_usuario: idTipoUsuario,
+        nome: this.userAuthForm.get('nome')?.value,
+        senha: this.userAuthForm.get('senha')?.value,
+      };
+
+      if (idTipoUsuario === 1) {
+        userData.email = this.userAuthForm.get('email')?.value;
+      } else if (idTipoUsuario === 2) {
+        userData.cnpj = this.userAuthForm.get('cnpj')?.value;
+      }
+    }
+    this.authenticateUserService
+      .authenticateUser(userData as UserDataInterface)
+      .subscribe({
+        next: (response: UserDataInterface) => {
+          if (this.isLogin) {
+            sessionStorage.setItem('userData', JSON.stringify(response));
+
+            this.router.navigate(['/home']);
+
+            this.sweetAlertService.showSuccess('Login realizado com sucesso!');
+          } else if (!this.isLogin) {
+            this.sweetAlertService.showSuccess(
+              'Cadastro realizado com sucesso! Faça o login para continuar.'
+            );
+
+            this.isLogin = !this.isLogin;
+          }
+        },
+        error: (error) => {
+          this.sweetAlertService.showError(error.message);
+        },
+      });
   }
 }

@@ -9,5 +9,6 @@ export interface UserDataInterface {
   id_tipo_usuario?: number;
   data_criacao?: Date;
   ativo?: boolean;
+  nome?: string,
   senha: string;
 }
