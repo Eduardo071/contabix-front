@@ -2,6 +2,7 @@
   <app-sidenav></app-sidenav>
   <main class="main">
     <section class="main-content">
+      
       <mat-card appearance="outlined" class="card-welcome">
         <div class="card-welcome-left">
           <header>
@@ -41,17 +42,24 @@
         <mat-card appearance="outlined" class="button-container">
           <button class="button-item">
             <mat-icon
-            aria-hidden="false"
-            aria-label="Example home icon"
-            fontIcon="calendar_month"
-            class="icon"
-          ></mat-icon>
-          <span>Minha agenda</span>
+              aria-hidden="false"
+              aria-label="Example home icon"
+              fontIcon="calendar_month"
+              class="icon"
+            ></mat-icon>
+            <span>Minha agenda</span>
           </button>
         </mat-card>
       </section>
+
+      <app-list-arquivos></app-list-arquivos>
     </section>
 
     <app-agenda-aside></app-agenda-aside>
+
+
+    <button mat-raised-button class="btn-new">
+      Adicionar solicitações
+    </button>
   </main>
 </div>
