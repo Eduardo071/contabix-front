@@ -2,7 +2,6 @@
   <app-sidenav></app-sidenav>
   <main class="main">
     <section class="main-content">
-
       <mat-card appearance="outlined" class="card-welcome">
         <div class="card-welcome-left">
           <header>
@@ -22,9 +21,35 @@
         </div>
 
         <div class="card-welcome-right">
-          <img src="../../../assets/boyWrite.png" alt="boy write">
+          <img src="../../../assets/boyWrite.png" alt="boy write" />
         </div>
       </mat-card>
+
+      <section class="buttons-container">
+        <mat-card appearance="outlined" class="button-container">
+          <button class="button-item">
+            <mat-icon
+              aria-hidden="false"
+              aria-label="Example home icon"
+              fontIcon="download"
+              class="icon"
+            ></mat-icon>
+            <span>Anexar arquivo</span>
+          </button>
+        </mat-card>
+
+        <mat-card appearance="outlined" class="button-container">
+          <button class="button-item">
+            <mat-icon
+            aria-hidden="false"
+            aria-label="Example home icon"
+            fontIcon="calendar_month"
+            class="icon"
+          ></mat-icon>
+          <span>Minha agenda</span>
+          </button>
+        </mat-card>
+      </section>
     </section>
 
     <app-agenda-aside></app-agenda-aside>
