@@ -1,133 +1,135 @@
 .container {
   display: flex;
-  max-width: 100vw;
+  justify-content: space-between;
+  width: 100vw;
   min-height: 100vh;
-  overflow-y: hidden;
-  overflow-x: hidden;
-}
+  overflow: hidden;
+  background-color: #F5F5F5;
 
-.main {
-  width: 100%;
-  display: grid;
-  grid-template-columns: 1fr 400px;
-  background-color: #f5f5f5;
-}
-
-.main-content {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 0px 8px;
-}
-
-.card-welcome {
-  margin-top: 15px;
-  width: 100%;
-  max-width: 860px;
-  background-color: #fff;
-  border-radius: 12px;
-  height: 220px;
-
-  padding: 22px 12px;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-}
-
-.card-welcome-left {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-
-  header {
-    display: flex;
-    flex-direction: column;
-
-    p {
-      font-size: 14px;
-      margin-left: 8px;
-      text-transform: uppercase;
-    }
-
-    h2 {
-      font-size: 2rem;
-      font-weight: 400;
-    }
-  }
-
-  footer {
-    display: flex;
-    align-items: center;
-    gap: 14px;
-
-    button {
-      background-color: #e0f4d3;
-    }
-  }
-}
-
-.card-welcome-right {
-  margin-top: 20px;
-}
-
-.buttons-container {
-  margin-top: 3.5rem;
-  width: 100%;
-  display: flex;
-  height: 9rem;
-  justify-content: space-evenly;
-}
-
-.button-container {
-  width: 300px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 12px;
-}
-
-.button-item {
-  border-radius: 8px;
-  border-color: #6ee7b7;
-  background: #e0f4d3;
-  border-style: dotted;
-  width: calc(100% - 20%);
-  height: calc(100% - 15%);
-  display: flex;
-  gap: 8px;
-  padding-bottom: 8px;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-end;
-  color: #064e3b;
-  cursor: pointer;
-  transition: all 0.2s;
-
-  &:hover {
-    filter: brightness(0.9);
-  }
-
-  .icon {
-    margin-bottom: -10px;
-    font-size: 40px;
+  .list-arquivos {
     width: 100%;
-    height: 100%;
+  }
+
+  .agenda-aside {
+    width: 35%;
+    height: 90vh !important;
+    padding-right: 3rem;
+    padding-top: 2.5vh;
+  }
+
+  .main-content {
     display: flex;
-    align-items: flex-end;
-    justify-content: center;
-  }
+    width: 90%;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 2rem;
+    gap: 3rem;
 
-  span {
-    font-size: 20px;
-  }
-}
+    .card-welcome {
+      width: 100%;
+      background-color: #fff;
+      border-radius: 0.75rem;
+      height: 13.75rem;
+      padding: 1.375rem 0.75rem;
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
 
-.btn-new {
-  margin: 2rem;
-  padding: 1.4rem;
-  border-radius: 20px;
-  color: #14532d;
-  font-weight: 400;
-  background: #E0F4D3 !important;
-  width: 400px;
+      .card-welcome-left {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+
+        header {
+          display: flex;
+          flex-direction: column;
+
+          p {
+            font-size: 0.875rem;
+            margin-left: 0.5rem;
+            text-transform: uppercase;
+          }
+
+          h2 {
+            font-size: 2rem;
+            font-weight: 400;
+          }
+        }
+
+        footer {
+          display: flex;
+          align-items: center;
+          gap: 0.875rem;
+
+          button {
+            background-color: #e0f4d3;
+          }
+        }
+      }
+    }
+
+    .buttons-container {
+      width: 90%;
+      display: flex;
+      height: 9rem;
+      justify-content: space-between;
+      align-self: center;
+
+      .button-container {
+        width: 18.75rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0.75rem;
+        border-radius: 1.8rem;
+        -webkit-box-shadow: 9px 8px 18px -12px rgba(0, 0, 0, 0.75);
+        -moz-box-shadow: 9px 8px 18px -12px rgba(0, 0, 0, 0.75);
+        box-shadow: 9px 8px 18px -12px rgba(0, 0, 0, 0.75);
+      }
+
+      .button-item {
+        border-radius: 0.5rem;
+        border-color: #6ee7b7;
+        background: #e0f4d3;
+        border-style: dotted;
+        width: 96%;
+        height: 96%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-end;
+        gap: 0.8rem;
+        color: #064e3b;
+        cursor: pointer;
+        transition: all 0.2s;
+
+        &:hover {
+          filter: brightness(0.9);
+        }
+
+        .icon {
+          font-size: 2.5rem;
+          width: 2.5rem;
+          height: 2.5rem;
+          display: flex;
+          align-items: flex-end;
+          justify-content: center;
+        }
+
+        span {
+          font-size: 1.25rem;
+        }
+      }
+    }
+
+    .btn-new {
+      margin: 2rem;
+      padding: 1.4rem;
+      border-radius: 1.25rem;
+      color: #14532d;
+      font-weight: 400;
+      background: #e0f4d3 !important;
+      width: 25rem;
+    }
+  }
 }
