@@ -1,65 +1,59 @@
 <div class="container">
   <app-sidenav></app-sidenav>
-  <main class="main">
-    <section class="main-content">
-      
-      <mat-card appearance="outlined" class="card-welcome">
-        <div class="card-welcome-left">
-          <header>
-            <p>Bem vindo!</p>
-            <h2>Jonh Doe</h2>
-          </header>
+  <main class="main-content">
+    <mat-card appearance="outlined" class="card-welcome">
+      <div class="card-welcome-left">
+        <header>
+          <p>Bem vindo!</p>
+          <h2>Jonh Doe</h2>
+        </header>
 
-          <footer>
-            <mat-icon
-              aria-hidden="false"
-              aria-label="Example home icon"
-              fontIcon="notifications"
-            ></mat-icon>
+        <footer>
+          <mat-icon
+            aria-hidden="false"
+            aria-label="Example home icon"
+            fontIcon="notifications"
+            class="material-icons-outlined"
+          ></mat-icon>
 
-            <button mat-raised-button>Novo evento adicionado!</button>
-          </footer>
-        </div>
+          <button mat-raised-button>Novo evento adicionado!</button>
+        </footer>
+      </div>
+      <img
+        src="../../../assets/boyWrite.png"
+        alt="boy write"
+        class="image-principal-card"
+      />
+    </mat-card>
 
-        <div class="card-welcome-right">
-          <img src="../../../assets/boyWrite.png" alt="boy write" />
-        </div>
+    <section class="buttons-container">
+      <mat-card appearance="outlined" class="button-container">
+        <button class="button-item">
+          <mat-icon
+            aria-hidden="false"
+            aria-label="Example home icon"
+            fontIcon="download"
+            class="icon"
+          ></mat-icon>
+          <span>Anexar arquivo</span>
+        </button>
       </mat-card>
 
-      <section class="buttons-container">
-        <mat-card appearance="outlined" class="button-container">
-          <button class="button-item">
-            <mat-icon
-              aria-hidden="false"
-              aria-label="Example home icon"
-              fontIcon="download"
-              class="icon"
-            ></mat-icon>
-            <span>Anexar arquivo</span>
-          </button>
-        </mat-card>
-
-        <mat-card appearance="outlined" class="button-container">
-          <button class="button-item">
-            <mat-icon
-              aria-hidden="false"
-              aria-label="Example home icon"
-              fontIcon="calendar_month"
-              class="icon"
-            ></mat-icon>
-            <span>Minha agenda</span>
-          </button>
-        </mat-card>
-      </section>
-
-      <app-list-arquivos></app-list-arquivos>
+      <mat-card appearance="outlined" class="button-container">
+        <button class="button-item">
+          <mat-icon
+            aria-hidden="false"
+            aria-label="Example home icon"
+            fontIcon="calendar_month"
+            class="icon"
+          ></mat-icon>
+          <span>Minha agenda</span>
+        </button>
+      </mat-card>
     </section>
 
-    <app-agenda-aside></app-agenda-aside>
-
-
-    <button mat-raised-button class="btn-new">
-      Adicionar solicitações
-    </button>
+    <app-list-arquivos class="list-arquivos"></app-list-arquivos>
+    <button mat-raised-button class="btn-new">Adicionar solicitações</button>
   </main>
+  <app-agenda-aside class="agenda-aside"></app-agenda-aside>
 </div>
