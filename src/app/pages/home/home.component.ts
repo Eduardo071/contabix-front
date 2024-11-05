@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { ComponentsModule } from '../../components/components.module';
 import { MatIconModule } from '@angular/material/icon';
 import { AgendaAsideComponent } from '../../components/agenda-aside/agenda-aside.component';
@@ -25,7 +25,16 @@ import { LoadingScreenComponent } from '../../components/loading-screen/loading-
 export class HomeComponent implements OnInit {
   loadingText: string = 'Carregando funcionalidades...';
   isLoading: boolean = true;
+
+  constructor(private readonly router: Router) {}
   ngOnInit(): void {
     this.isLoading = false;
+  }
+
+  handleOpenSolicitation() {
+    this.router.navigate(['open-solicitation']);
+  }
+  handleOpenCalendar() {
+    this.router.navigate(['calendar']);
   }
 }
