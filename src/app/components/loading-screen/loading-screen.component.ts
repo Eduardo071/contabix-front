@@ -1,10 +1,4 @@
-import {
-  Component,
-  HostBinding,
-  Input,
-  OnChanges,
-  SimpleChanges,
-} from '@angular/core';
+import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { SharedModule } from '../../shared/shared.module';
 
 @Component({
@@ -18,7 +12,7 @@ export class LoadingScreenComponent implements OnChanges {
   @Input({ required: true }) loadingText!: string;
   @Input({ required: true }) show!: boolean;
 
-  @HostBinding('class.fade-out') fadeOut = false;
+  fadeOut: boolean = false;
 
   render: boolean = true;
 
@@ -27,8 +21,13 @@ export class LoadingScreenComponent implements OnChanges {
       if (!this.show) {
         setTimeout(() => {
           this.fadeOut = true;
-          this.render = false;
+          setTimeout(() => {
+            this.render = false;
+          }, 3100);
         }, 3000);
+      } else {
+        this.render = true;
+        this.fadeOut = false;
       }
     }
   }

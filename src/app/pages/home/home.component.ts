@@ -28,8 +28,6 @@ export class HomeComponent implements OnInit {
   loadingText: string = 'Carregando funcionalidades...';
   isLoading: boolean = true;
   ngOnInit(): void {
-  setTimeout(() => {
-    this.isLoading = false;
-  }, 1500);
+    // this.isLoading = false;
   }
 }
