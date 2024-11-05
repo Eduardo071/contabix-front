@@ -1,6 +1,7 @@
 import { Routes } from '@angular/router';
 import { HomeComponent } from './pages/home/home.component';
 import { AuthenticateUserComponent } from './pages/authenticate-user/authenticate-user.component';
+import { SolicitationComponent } from './pages/solicitation/solicitation.component';
 
 export const routes: Routes = [
   {
@@ -13,4 +14,14 @@ export const routes: Routes = [
     component: HomeComponent,
     pathMatch: 'full'
   },
+  {
+    path: 'open-solicitation',
+    component: SolicitationComponent,
+    pathMatch: 'full'
+  },
+  // {
+  //   path: 'calendar',
+  //   component: CalendarComponent,
+  //   pathMatch: 'full'
+  // },
 ];
