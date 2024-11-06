@@ -1,0 +1,8 @@
+<h2 mat-dialog-title>Event Details</h2>
+<mat-dialog-content>
+  <p><strong>Title:</strong> {{ data.title }}</p>
+  <p><strong>Start:</strong> {{ data.start | date : "fullDate" }}</p>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close>Close</button>
+</mat-dialog-actions>
