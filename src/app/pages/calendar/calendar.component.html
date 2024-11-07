@@ -1,6 +1,17 @@
 <div class="container">
   <app-sidenav></app-sidenav>
   <main class="main-content">
+    <div class="month-selector">
+      <select
+        id="month"
+        [(ngModel)]="currentMonth"
+        (change)="onMonthChange($event)"
+      >
+        <option *ngFor="let month of months" [value]="month.value">
+          {{ month.name }}
+        </option>
+      </select>
+    </div>
 
     <div [ngSwitch]="view" class="calendar-container">
       <mwl-calendar-month-view

@@ -16,10 +16,8 @@ import { ComponentsModule } from "../../components/components.module";
 const eventColor: any = {
   primary: '#1e90ff',
   secondary: '#D1E8FF',
-  secondaryText: '#FFFFFF', // Required property for EventColor type
+  secondaryText: '#FFFFFF',
 };
-
-// Use the event color with secondaryText defined
 
 @Component({
   selector: 'app-calendar',
@@ -38,37 +36,50 @@ const eventColor: any = {
   templateUrl: './calendar.component.html',
   styleUrl: './calendar.component.scss'
 })
+
 export class CalendarComponent {
-  constructor(
-    public dialog: MatDialog
-  ) { }
+  constructor(public dialog: MatDialog) { }
 
+  CalendarView = CalendarView;
+  view: CalendarView = CalendarView.Month;
+  viewDate: Date = new Date();
 
+  currentMonth: number = new Date().getMonth();
 
-  // Method to open dialog with event details
+  months = [
+    { name: 'Jan', value: 0 },
+    { name: 'Fev', value: 1 },
+    { name: 'Mar', value: 2 },
+    { name: 'Abr', value: 3 },
+    { name: 'Mai', value: 4 },
+    { name: 'Jun', value: 5 },
+    { name: 'Jul', value: 6 },
+    { name: 'Ago', value: 7 },
+    { name: 'Set', value: 8 },
+    { name: 'Out', value: 9 },
+    { name: 'Nov', value: 10 },
+    { name: 'Dez', value: 11 },
+  ];
+
+  events = [
+    {
+      start: new Date(),
+      end: new Date(),
+      title: 'Test Event for Today',
+      color: eventColor,
+      allDay: true,
+    },
+  ];
+
   openEventDialog(event: CalendarEvent): void {
     this.dialog.open(EventCalendarComponent, {
       data: event,
     });
   }
 
-  CalendarView = CalendarView
-
-  view: CalendarView = CalendarView.Month;
-  viewDate: Date = new Date();
-  events = [{
-    start: new Date(), // Today's date
-    end: new Date(), // Optional: end date can be the same for an all-day event
-    title: 'Test Event for Today',
-    color: eventColor, // Event colors
-    allDay: true, // Displays the event as an all-day event
-  },
-  {
-    start: new Date(Date.UTC(2024, 10, 3)),
-    end: new Date(Date.UTC(2024, 10, 3)), // Optional: end date can be the same for an all-day event
-    title: 'Botei fe em tu',
-    color: '#D1E8FF', // Event colors
-    allDay: true, // Displays the event as an all-day event
+  onMonthChange(event: Event): void {
+    const target = event.target as HTMLSelectElement;
+    const month = target.value ? +target.value : 0;
+    this.viewDate = new Date(this.viewDate.getFullYear(), month, 1);
   }
-    ,];
 }
