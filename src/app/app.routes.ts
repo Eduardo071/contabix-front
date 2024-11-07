@@ -3,26 +3,41 @@ import { HomeComponent } from './pages/home/home.component';
 import { AuthenticateUserComponent } from './pages/authenticate-user/authenticate-user.component';
 import { SolicitationComponent } from './pages/solicitation/solicitation.component';
 import { CalendarComponent } from './pages/calendar/calendar.component';
+import { authGuard, notLoggedGuard } from './shared/guards/auth.guard';
 
 export const routes: Routes = [
   {
+    path: '',
+    redirectTo: 'user-auth',
+    pathMatch: 'full'
+  },
+  {
     path: 'user-auth',
     component: AuthenticateUserComponent,
-    pathMatch: 'full'
+    pathMatch: 'full',
+    canActivate: [notLoggedGuard]
   },
   {
     path: 'home',
     component: HomeComponent,
-    pathMatch: 'full'
+    pathMatch: 'full',
+    canActivate: [authGuard]
   },
   {
     path: 'open-solicitation',
     component: SolicitationComponent,
-    pathMatch: 'full'
+    pathMatch: 'full',
+    canActivate: [authGuard]
   },
   {
     path: 'calendar',
     component: CalendarComponent,
+    pathMatch: 'full',
+    canActivate: [authGuard]
+  },
+  {
+    path: '**',
+    redirectTo: 'user-auth',
     pathMatch: 'full'
   },
 ];
