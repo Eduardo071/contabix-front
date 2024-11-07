@@ -24,6 +24,7 @@ import { NgxMaskDirective } from 'ngx-mask';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { SweetAlertService } from '../../shared/services/sweet-alert-service.service';
+import { CNPJ_MASK } from '../../shared/constants/constants';
 
 @Component({
   selector: 'app-authenticate-user',
@@ -62,6 +63,7 @@ export class AuthenticateUserComponent implements OnInit {
   labelFlowChangeButton!: string;
   labelSubmitButton!: string;
   usuarioMask: string | null = null;
+  cnpjMask: string = CNPJ_MASK;
 
   constructor(
     private readonly fb: FormBuilder,
@@ -106,7 +108,7 @@ export class AuthenticateUserComponent implements OnInit {
 
   updateUsuarioMask(value: string) {
     const isNumeric = /\d/.test(value);
-    this.usuarioMask = isNumeric ? '00.000.000/0000-00' : null;
+    this.usuarioMask = isNumeric ? CNPJ_MASK : null;
   }
 
   buildLoginForm(): FormGroup {
@@ -145,7 +147,7 @@ export class AuthenticateUserComponent implements OnInit {
           if (this.isLogin) {
             sessionStorage.setItem('userData', JSON.stringify(response));
             this.router.navigate(['/home']);
-            this.sweetAlertService.showSuccess('Login realizado com sucesso!');
+            this.sweetAlertService.showSucessToaster('Login realizado com sucesso!');
           } else {
             this.sweetAlertService.showSuccess(
               'Cadastro realizado com sucesso! Faça o login para continuar.'
@@ -157,24 +159,6 @@ export class AuthenticateUserComponent implements OnInit {
           this.sweetAlertService.showError(error.error.message);
         },
       });
-  }
-
-  handleUserTypeSelection(clearUnusedAtributes?: boolean) {
-    if (this.userAuthForm?.get('idTipoUsuario')?.value == 1) {
-      if (!this.userAuthForm.contains('email')) {
-        this.userAuthForm.addControl('email', this.fb.control(null));
-      }
-      if (this.userAuthForm?.contains('cnpj') && clearUnusedAtributes) {
-        this.userAuthForm.removeControl('cnpj');
-      }
-    } else if (this.userAuthForm?.get('idTipoUsuario')?.value == 2) {
-      if (!this.userAuthForm.contains('cnpj')) {
-        this.userAuthForm.addControl('cnpj', this.fb.control(null));
-      }
-      if (this.userAuthForm?.contains('email') && clearUnusedAtributes) {
-        this.userAuthForm.removeControl('email');
-      }
-    }
   }
 
   private buildLoginData(): Partial<UserDataInterface> {

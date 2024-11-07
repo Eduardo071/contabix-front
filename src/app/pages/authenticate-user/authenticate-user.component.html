@@ -24,7 +24,6 @@
           <mat-label>Selecione</mat-label>
           <mat-select
             required
-            (valueChange)="handleUserTypeSelection(true)"
             formControlName="idTipoUsuario"
           >
             <mat-option
@@ -75,7 +74,7 @@
           *ngIf="!isLogin && userAuthForm.get('idTipoUsuario')?.value == 2"
         >
           <mat-label>Cnpj</mat-label>
-          <input matInput placeholder="Cnpj" required formControlName="cnpj" />
+          <input matInput placeholder="Cnpj" required formControlName="cnpj" [mask]="cnpjMask"/>
           <mat-error *ngIf="userAuthForm.get('cnpj')?.hasError('required')">
             CNPJ é obrigatório
           </mat-error>

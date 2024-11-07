@@ -16,6 +16,16 @@ export class SweetAlertService {
     });
   }
 
+  showSucessToaster(title: string) {
+    Swal.fire({
+      position: "top-end",
+      icon: "success",
+      title: title,
+      showConfirmButton: false,
+      timer: 1500
+    });
+  }
+
   showError(message: string) {
     Swal.fire({
       icon: 'error',
