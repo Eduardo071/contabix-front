@@ -8,12 +8,28 @@ import { HttpClient } from '@angular/common/http';
   providedIn: 'root',
 })
 export class AuthenticateUserService {
-  hostUrl: string = this.environmentService.getApiUrl();
+  hostUrl: string = this.environmentService.getApiUrl() + '/usuarios';
 
-  constructor(private readonly environmentService: EnvironmentService, private readonly http: HttpClient) {}
+  constructor(
+    private readonly environmentService: EnvironmentService,
+    private readonly http: HttpClient
+  ) {}
 
   authenticateUser(userData: UserDataInterface): Observable<UserDataInterface> {
-    const url = this.hostUrl + '/auth-user';
-    return this.http.post<UserDataInterface>(url, userData);
+    const url = this.hostUrl + '/loginOrRegister';
+    const cleanedData: UserDataInterface = {} as UserDataInterface;
+
+    for (const key in userData) {
+      if (
+        userData[key as keyof UserDataInterface] !== null &&
+        userData[key as keyof UserDataInterface] !== undefined &&
+        userData[key as keyof UserDataInterface] !== ''
+      ) {
+        (cleanedData as any)[key] =
+          userData[key as keyof UserDataInterface];
+      }
+    }
+
+    return this.http.post<UserDataInterface>(url, cleanedData);
   }
 }

@@ -54,7 +54,10 @@ import { SweetAlertService } from '../../shared/services/sweet-alert-service.ser
 export class AuthenticateUserComponent implements OnInit {
   textActionForm: string = '';
   isLogin: boolean = true;
-  selectOptions!: Array<UserTypesInterface>;
+  selectOptions: UserTypesInterface[] = [
+    { idTipoUsuario: 1, descricao: 'Contador' },
+    { idTipoUsuario: 2, descricao: 'Empresa' },
+  ];
   userAuthForm!: FormGroup;
   labelFlowChangeButton!: string;
   labelSubmitButton!: string;
@@ -68,7 +71,32 @@ export class AuthenticateUserComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.handleFormMode();
+    this.setupForm();
+  }
+
+  setupForm(): void {
+    this.setTextActionForm();
+    this.setButtonLabels();
+    this.userAuthForm = this.isLogin
+      ? this.buildLoginForm()
+      : this.buildRegisterForm();
+  }
+
+  setTextActionForm(): void {
+    this.textActionForm = this.isLogin ? 'Bem Vindo(a)!' : 'Criar conta';
+  }
+
+  setButtonLabels(): void {
+    this.labelSubmitButton = this.isLogin ? 'ENTRAR' : 'CRIAR';
+    this.labelFlowChangeButton = this.isLogin
+      ? 'Não possui conta ainda? Cadastre-se!'
+      : 'Já possui conta? Entre!';
+  }
+
+  handleClickFlowChangeButton() {
+    this.isLogin = !this.isLogin;
+    this.setButtonLabels();
+    this.setupForm();
     if (this.isLogin && this.usuarioMask === null) {
       this.userAuthForm.get('usuario')?.valueChanges.subscribe((value) => {
         this.updateUsuarioMask(value);
@@ -76,59 +104,70 @@ export class AuthenticateUserComponent implements OnInit {
     }
   }
 
-  setTextActionForm(text: string) {
-    this.textActionForm = text;
+  updateUsuarioMask(value: string) {
+    const isNumeric = /\d/.test(value);
+    this.usuarioMask = isNumeric ? '00.000.000/0000-00' : null;
   }
 
-  setLabelSubmitButton(text: string) {
-    this.labelSubmitButton = text;
+  buildLoginForm(): FormGroup {
+    return this.fb.group({
+      usuario: [null, Validators.required],
+      senha: [null, Validators.required],
+    });
   }
 
-  setLabelFlowChangeButton(text: string) {
-    this.labelFlowChangeButton = text;
+  buildRegisterForm(): FormGroup {
+    return this.fb.group({
+      nome: [null, Validators.required],
+      senha: [null, Validators.required],
+      idTipoUsuario: [null, Validators.required],
+      email: [null],
+      cnpj: [null],
+    });
   }
 
-  setSelectOptions() {
-    this.selectOptions = [
-      { id_tipo_usuario: 1, descricao: 'Contador' },
-      { id_tipo_usuario: 2, descricao: 'Empresa' },
-    ];
+  handleFormToggle(): void {
+    this.isLogin = !this.isLogin;
+    this.setupForm();
   }
 
-  handleFormMode() {
-    if (this.isLogin) {
-      this.setTextActionForm('Bem Vindo(a)!');
-      this.setLabelSubmitButton('ENTRAR');
-      this.setLabelFlowChangeButton('Não possui conta ainda? Cadastre-se!');
-      this.userAuthForm = this.fb.group({
-        usuario: [null, Validators.required],
-        senha: [null, Validators.required],
+  handleClickSubmitButton(): void {
+    if (this.userAuthForm.invalid) return;
+
+    const userData: Partial<UserDataInterface> = this.isLogin
+      ? this.buildLoginData()
+      : this.buildRegisterData();
+
+    this.authenticateUserService
+      .authenticateUser(userData as UserDataInterface)
+      .subscribe({
+        next: (response: UserDataInterface) => {
+          if (this.isLogin) {
+            sessionStorage.setItem('userData', JSON.stringify(response));
+            this.router.navigate(['/home']);
+            this.sweetAlertService.showSuccess('Login realizado com sucesso!');
+          } else {
+            this.sweetAlertService.showSuccess(
+              'Cadastro realizado com sucesso! Faça o login para continuar.'
+            );
+            this.handleFormToggle();
+          }
+        },
+        error: (error) => {
+          this.sweetAlertService.showError(error.error.message);
+        },
       });
-    } else if (!this.isLogin) {
-      this.usuarioMask = null;
-      this.setTextActionForm('Criar conta');
-      this.setLabelSubmitButton('CRIAR');
-      this.setLabelFlowChangeButton('Já possui conta? Entre!');
-      this.setSelectOptions();
-      this.userAuthForm = this.fb.group({
-        nome: [null, Validators.required],
-        senha: [null, Validators.required],
-        id_tipo_usuario: [null, Validators.required],
-        email: [null],
-        cnpj: [null],
-      });
-    }
   }
 
   handleUserTypeSelection(clearUnusedAtributes?: boolean) {
-    if (this.userAuthForm?.get('id_tipo_usuario')?.value == 1) {
+    if (this.userAuthForm?.get('idTipoUsuario')?.value == 1) {
       if (!this.userAuthForm.contains('email')) {
         this.userAuthForm.addControl('email', this.fb.control(null));
       }
       if (this.userAuthForm?.contains('cnpj') && clearUnusedAtributes) {
         this.userAuthForm.removeControl('cnpj');
       }
-    } else if (this.userAuthForm?.get('id_tipo_usuario')?.value == 2) {
+    } else if (this.userAuthForm?.get('idTipoUsuario')?.value == 2) {
       if (!this.userAuthForm.contains('cnpj')) {
         this.userAuthForm.addControl('cnpj', this.fb.control(null));
       }
@@ -138,73 +177,22 @@ export class AuthenticateUserComponent implements OnInit {
     }
   }
 
-  updateUsuarioMask(value: string) {
-    const isNumeric = /\d/.test(value);
-    this.usuarioMask = isNumeric ? '00.000.000/0000-00' : null;
+  private buildLoginData(): Partial<UserDataInterface> {
+    const usuario = this.userAuthForm.get('usuario')?.value;
+    return {
+      email: this.usuarioMask ? undefined : usuario,
+      cnpj: this.usuarioMask ? usuario : undefined,
+      senha: this.userAuthForm.get('senha')?.value,
+    };
   }
 
-  handleClickFlowChangeButton() {
-    this.isLogin = !this.isLogin;
-    this.handleFormMode();
-
-    if (this.isLogin && this.usuarioMask === null) {
-      this.userAuthForm.get('usuario')?.valueChanges.subscribe((value) => {
-        this.updateUsuarioMask(value);
-      });
-    }
-  }
-
-  handleClickSubmitButton() {
-    let userData: Partial<UserDataInterface> = {};
-
-    if (this.isLogin) {
-      const usuarioValue = this.userAuthForm.get('usuario')?.value;
-      if (this.usuarioMask === '00.000.000/0000-00') {
-        userData = {
-          cnpj: usuarioValue,
-          senha: this.userAuthForm.get('senha')?.value,
-        };
-      } else {
-        userData = {
-          email: usuarioValue,
-          senha: this.userAuthForm.get('senha')?.value,
-        };
-      }
-    } else {
-      const idTipoUsuario = this.userAuthForm.get('id_tipo_usuario')?.value;
-      userData = {
-        id_tipo_usuario: idTipoUsuario,
-        nome: this.userAuthForm.get('nome')?.value,
-        senha: this.userAuthForm.get('senha')?.value,
-      };
-
-      if (idTipoUsuario === 1) {
-        userData.email = this.userAuthForm.get('email')?.value;
-      } else if (idTipoUsuario === 2) {
-        userData.cnpj = this.userAuthForm.get('cnpj')?.value;
-      }
-    }
-    this.authenticateUserService
-      .authenticateUser(userData as UserDataInterface)
-      .subscribe({
-        next: (response: UserDataInterface) => {
-          if (this.isLogin) {
-            sessionStorage.setItem('userData', JSON.stringify(response));
-
-            this.router.navigate(['/home']);
-
-            this.sweetAlertService.showSuccess('Login realizado com sucesso!');
-          } else if (!this.isLogin) {
-            this.sweetAlertService.showSuccess(
-              'Cadastro realizado com sucesso! Faça o login para continuar.'
-            );
-
-            this.isLogin = !this.isLogin;
-          }
-        },
-        error: (error) => {
-          this.sweetAlertService.showError(error.message);
-        },
-      });
+  private buildRegisterData(): Partial<UserDataInterface> {
+    return {
+      nome: this.userAuthForm.get('nome')?.value,
+      senha: this.userAuthForm.get('senha')?.value,
+      idTipoUsuario: this.userAuthForm.get('idTipoUsuario')?.value,
+      email: this.userAuthForm.get('email')?.value,
+      cnpj: this.userAuthForm.get('cnpj')?.value,
+    };
   }
 }

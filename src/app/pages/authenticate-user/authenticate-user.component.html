@@ -15,21 +15,30 @@
             formControlName="usuario"
             [mask]="usuarioMask"
           />
+          <mat-error *ngIf="userAuthForm.get('usuario')?.hasError('required')">
+            Usuário é obrigatório
+          </mat-error>
         </mat-form-field>
 
         <mat-form-field *ngIf="!isLogin" class="input-form-field">
           <mat-label>Selecione</mat-label>
           <mat-select
             required
-            (valueChange)="handleUserTypeSelection()"
-            formControlName="id_tipo_usuario"
+            (valueChange)="handleUserTypeSelection(true)"
+            formControlName="idTipoUsuario"
           >
             <mat-option
               *ngFor="let option of selectOptions"
-              value="{{ option.id_tipo_usuario }}"
-              >{{ option.descricao }}</mat-option
+              [value]="option.idTipoUsuario"
             >
+              {{ option.descricao }}
+            </mat-option>
           </mat-select>
+          <mat-error
+            *ngIf="userAuthForm.get('idTipoUsuario')?.hasError('required')"
+          >
+            Selecione o tipo de usuário
+          </mat-error>
         </mat-form-field>
 
         <mat-form-field class="input-form-field" *ngIf="!isLogin">
@@ -40,11 +49,14 @@
             required
             formControlName="nome"
           />
+          <mat-error *ngIf="userAuthForm.get('nome')?.hasError('required')">
+            Nome completo é obrigatório
+          </mat-error>
         </mat-form-field>
 
         <mat-form-field
           class="input-form-field"
-          *ngIf="!isLogin && userAuthForm.get('id_tipo_usuario')?.value == 1"
+          *ngIf="!isLogin && userAuthForm.get('idTipoUsuario')?.value == 1"
         >
           <mat-label>Email</mat-label>
           <input
@@ -53,27 +65,43 @@
             required
             formControlName="email"
           />
+          <mat-error *ngIf="userAuthForm.get('email')?.hasError('required')">
+            Email é obrigatório
+          </mat-error>
         </mat-form-field>
 
         <mat-form-field
           class="input-form-field"
-          *ngIf="!isLogin && userAuthForm.get('id_tipo_usuario')?.value == 2"
+          *ngIf="!isLogin && userAuthForm.get('idTipoUsuario')?.value == 2"
         >
           <mat-label>Cnpj</mat-label>
           <input matInput placeholder="Cnpj" required formControlName="cnpj" />
+          <mat-error *ngIf="userAuthForm.get('cnpj')?.hasError('required')">
+            CNPJ é obrigatório
+          </mat-error>
         </mat-form-field>
 
         <mat-form-field class="input-form-field">
           <mat-label>Senha</mat-label>
           <input
             matInput
+            type="password"
             placeholder="Senha"
             required
             formControlName="senha"
           />
+          <mat-error *ngIf="userAuthForm.get('senha')?.hasError('required')">
+            Senha é obrigatória
+          </mat-error>
         </mat-form-field>
 
-        <button mat-button (click)="handleClickSubmitButton()" color="black" class="button-submit">
+        <button
+          mat-button
+          (click)="handleClickSubmitButton()"
+          color="black"
+          class="button-submit"
+          [disabled]="userAuthForm.invalid"
+        >
           {{ labelSubmitButton }}
         </button>
       </form>
@@ -92,8 +120,10 @@
     />
 
     <div class="speech-bubble">
-      <p>A comunicação ágil e clara é essencial para uma parceria de sucesso.<br>
-      Estamos aqui para você!</p>
+      <p>
+        A comunicação ágil e clara é essencial para uma parceria de sucesso.<br />
+        Estamos aqui para você!
+      </p>
     </div>
   </section>
 </main>
