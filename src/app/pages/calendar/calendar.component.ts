@@ -61,15 +61,22 @@ export class CalendarComponent {
     { name: 'Dez', value: 11 },
   ];
 
-  events = [
-    {
-      start: new Date(),
-      end: new Date(),
-      title: 'Test Event for Today',
-      color: eventColor,
-      allDay: true,
-    },
-  ];
+  events = [{
+    start: new Date(),
+    end: new Date(),
+    title: 'Test Event for Today',
+    color: eventColor,
+    allDay: true,
+  },
+  {
+    start: new Date(Date.UTC(2024, 10, 3)),
+    end: new Date(Date.UTC(2024, 10, 3)),
+    title: 'Botei fe em tu',
+    color: '#D1E8FF',
+    allDay: true,
+  }
+    ,];
+
 
   openEventDialog(event: CalendarEvent): void {
     this.dialog.open(EventCalendarComponent, {

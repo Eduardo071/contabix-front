@@ -1,0 +1,44 @@
+.modal-title {
+  font-size: 1.5rem;
+  color: #333;
+  border-bottom: 1px solid #e0e0e0;
+  padding-bottom: 8px;
+  margin-bottom: 16px;
+  text-align: center;
+}
+
+.modal-content {
+  font-size: 1rem;
+  color: #555;
+  line-height: 1.6;
+  padding: 8px 16px;
+  background-color: #fafafa;
+  border-radius: 8px;
+}
+
+.modal-content p {
+  margin: 8px 0;
+}
+
+.modal-actions {
+  margin-top: 16px;
+  padding: 8px 16px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.close-button {
+  background-color: #1e90ff;
+  border: 0;
+  color: white;
+  font-weight: 400;
+  padding: 6px 12px;
+  border-radius: 4px;
+  transition: background-color 0.3s ease;
+  cursor: pointer;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+
+  &:hover {
+    background-color: #1565c0;
+  }
+}
