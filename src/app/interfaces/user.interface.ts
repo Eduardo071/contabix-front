@@ -6,7 +6,7 @@ export interface UserDataInterface {
   id_usuario?: number;
   cnpj?: string;
   email?: string;
-  idTipoUsuario?: number;
+  tipoUsuario?: UserTypesInterface;
   data_criacao?: Date;
   ativo?: boolean;
   nome?: string,

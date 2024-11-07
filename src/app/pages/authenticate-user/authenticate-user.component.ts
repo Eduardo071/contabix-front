@@ -25,6 +25,7 @@ import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { SweetAlertService } from '../../shared/services/sweet-alert-service.service';
 import { CNPJ_MASK } from '../../shared/constants/constants';
+import { TiposUsuarioService } from '../../services/tipos-usuario.service';
 
 @Component({
   selector: 'app-authenticate-user',
@@ -55,10 +56,7 @@ import { CNPJ_MASK } from '../../shared/constants/constants';
 export class AuthenticateUserComponent implements OnInit {
   textActionForm: string = '';
   isLogin: boolean = true;
-  selectOptions: UserTypesInterface[] = [
-    { idTipoUsuario: 1, descricao: 'Contador' },
-    { idTipoUsuario: 2, descricao: 'Empresa' },
-  ];
+  selectOptions!: UserTypesInterface[];
   userAuthForm!: FormGroup;
   labelFlowChangeButton!: string;
   labelSubmitButton!: string;
@@ -68,9 +66,16 @@ export class AuthenticateUserComponent implements OnInit {
   constructor(
     private readonly fb: FormBuilder,
     private readonly authenticateUserService: AuthenticateUserService,
+    private readonly tiposUsuarioService: TiposUsuarioService,
     private readonly sweetAlertService: SweetAlertService,
     private readonly router: Router
-  ) {}
+  ) {
+    tiposUsuarioService.getTiposUsuario().subscribe({
+      next: (data: UserTypesInterface[]) => {
+        this.selectOptions = data;
+      }
+    });
+  }
 
   ngOnInit(): void {
     this.setupForm();
@@ -122,7 +127,7 @@ export class AuthenticateUserComponent implements OnInit {
     return this.fb.group({
       nome: [null, Validators.required],
       senha: [null, Validators.required],
-      idTipoUsuario: [null, Validators.required],
+      tipoUsuario: [null, Validators.required],
       email: [null],
       cnpj: [null],
     });
@@ -174,7 +179,7 @@ export class AuthenticateUserComponent implements OnInit {
     return {
       nome: this.userAuthForm.get('nome')?.value,
       senha: this.userAuthForm.get('senha')?.value,
-      idTipoUsuario: this.userAuthForm.get('idTipoUsuario')?.value,
+      tipoUsuario: this.userAuthForm.get('tipoUsuario')?.value,
       email: this.userAuthForm.get('email')?.value,
       cnpj: this.userAuthForm.get('cnpj')?.value,
     };

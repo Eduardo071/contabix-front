@@ -24,17 +24,17 @@
           <mat-label>Selecione</mat-label>
           <mat-select
             required
-            formControlName="idTipoUsuario"
+            formControlName="tipoUsuario"
           >
             <mat-option
               *ngFor="let option of selectOptions"
-              [value]="option.idTipoUsuario"
+              [value]="option"
             >
               {{ option.descricao }}
             </mat-option>
           </mat-select>
           <mat-error
-            *ngIf="userAuthForm.get('idTipoUsuario')?.hasError('required')"
+            *ngIf="userAuthForm.get('tipoUsuario')?.hasError('required')"
           >
             Selecione o tipo de usuário
           </mat-error>
@@ -55,7 +55,7 @@
 
         <mat-form-field
           class="input-form-field"
-          *ngIf="!isLogin && userAuthForm.get('idTipoUsuario')?.value == 1"
+          *ngIf="!isLogin && userAuthForm.get('tipoUsuario')?.value?.idTipoUsuario == 1"
         >
           <mat-label>Email</mat-label>
           <input
@@ -71,7 +71,7 @@
 
         <mat-form-field
           class="input-form-field"
-          *ngIf="!isLogin && userAuthForm.get('idTipoUsuario')?.value == 2"
+          *ngIf="!isLogin && userAuthForm.get('tipoUsuario')?.value?.idTipoUsuario == 2"
         >
           <mat-label>Cnpj</mat-label>
           <input matInput placeholder="Cnpj" required formControlName="cnpj" [mask]="cnpjMask"/>
