@@ -1,7 +1,14 @@
 <h2 mat-dialog-title class="modal-title">Detalhes do Evento</h2>
 <mat-dialog-content class="modal-content">
   <p><strong>Título:</strong> {{ data.title }}</p>
-  <p><strong>Início:</strong> {{ data.start | date: "EEEE, dd 'de' MMMM 'de' y" : 'pt-BR' }}</p>
+  <p>
+    <strong>Início:</strong>
+    {{ data.start | date : "EEEE, dd 'de' MMMM 'de' y" : "pt-BR" }}
+  </p>
+  <p>
+    <strong>Descrição:</strong>
+    {{ data.description }}
+  </p>
 </mat-dialog-content>
 <mat-dialog-actions align="end" class="modal-actions">
   <button mat-button mat-dialog-close class="close-button">Fechar</button>

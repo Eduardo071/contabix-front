@@ -1,4 +1,11 @@
-import { CalendarA11y, CalendarDateFormatter, CalendarEventTitleFormatter, CalendarModule, CalendarUtils, DateAdapter } from 'angular-calendar';
+import {
+  CalendarA11y,
+  CalendarDateFormatter,
+  CalendarEventTitleFormatter,
+  CalendarModule,
+  CalendarUtils,
+  DateAdapter
+} from 'angular-calendar';
 import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 import {
   Component,
@@ -13,17 +20,32 @@ import { EventCalendarComponent } from '../../components/event-calendar/event-ca
 import { MatDialog } from '@angular/material/dialog';
 import { ComponentsModule } from "../../components/components.module";
 import { AgendaControllerService } from '../../services/agenda-controller.service';
+import { format, parseISO, startOfMonth } from 'date-fns';
+import { MatSelectModule } from '@angular/material/select';
+import { MatSelectChange } from '@angular/material/select';
+import { MONTHS } from '../../shared/constants/constants';
 
-const eventColor: any = {
+const eventColor = {
   primary: '#1e90ff',
   secondary: '#D1E8FF',
   secondaryText: '#FFFFFF',
-};
+} as const;
+
+interface CustomCalendarEvent extends CalendarEvent {
+  description?: string;
+}
 
 @Component({
   selector: 'app-calendar',
   standalone: true,
-  imports: [CalendarModule, CommonModule, ReactiveFormsModule, FormsModule, ComponentsModule],
+  imports: [
+    CalendarModule,
+    CommonModule,
+    ReactiveFormsModule,
+    FormsModule,
+    ComponentsModule,
+    MatSelectModule
+  ],
   providers: [
     {
       provide: DateAdapter,
@@ -42,45 +64,16 @@ export class CalendarComponent {
   constructor(
     public dialog: MatDialog,
     private service: AgendaControllerService
-  ) {
-  }
+  ) { }
 
+  events: CustomCalendarEvent[] = [];
   CalendarView = CalendarView;
   view: CalendarView = CalendarView.Month;
   viewDate: Date = new Date();
-
   currentMonth: number = new Date().getMonth();
+  months = MONTHS
 
-  months = [
-    { name: 'Jan', value: 0 },
-    { name: 'Fev', value: 1 },
-    { name: 'Mar', value: 2 },
-    { name: 'Abr', value: 3 },
-    { name: 'Mai', value: 4 },
-    { name: 'Jun', value: 5 },
-    { name: 'Jul', value: 6 },
-    { name: 'Ago', value: 7 },
-    { name: 'Set', value: 8 },
-    { name: 'Out', value: 9 },
-    { name: 'Nov', value: 10 },
-    { name: 'Dez', value: 11 },
-  ];
-
-  events = [{
-    start: new Date(),
-    end: new Date(),
-    title: 'Test Event for Today',
-    color: eventColor,
-    allDay: true,
-  },
-  {
-    start: new Date(Date.UTC(2024, 10, 3)),
-    end: new Date(Date.UTC(2024, 10, 3)),
-    title: 'Botei fe em tu',
-    color: '#D1E8FF',
-    allDay: true,
-  }
-    ,];
+  selectedMonthName: string = this.months[this.currentMonth].name;
 
 
   openEventDialog(event: CalendarEvent): void {
@@ -88,31 +81,35 @@ export class CalendarComponent {
       data: event,
     });
   }
-  onMonthChange(event: Event): void {
-    const target = event.target as HTMLSelectElement;
-    const month = target.value ? +target.value : 0;
+
+  onMonthChange(event: MatSelectChange): void {
+    const month = event.value;
     const currentYear = new Date().getFullYear();
 
-    // Adiciona zero à esquerda se necessário
-    const monthSelecionado = (month + 1).toString().padStart(2, '0');
-    const dateMonthYearFormatted = `${monthSelecionado}/${currentYear}`;
+    this.viewDate = startOfMonth(new Date(currentYear, month, 1));
+    this.selectedMonthName = this.months[month].name;
+    const dateMonthYearFormatted = format(this.viewDate, 'MM/yyyy');
+    this.events = [];
 
-    this.viewDate = new Date(this.viewDate.getFullYear(), month, 1);
+    this.getEventByMonth(dateMonthYearFormatted);
+  }
 
+  getEventByMonth(dateMonthYearFormatted: string) {
     this.service.getEventByMonth(dateMonthYearFormatted).subscribe({
       next: (data) => {
-        if (data) {
-          data.map((event: any) => {
-            this.events.push(event)
-          })
-        }
+        this.events = data.map((event: any) => ({
+          start: parseISO(event.dataEvento),
+          end: parseISO(event.dataEvento),
+          title: event.tipoEvento,
+          description: event.descricao,
+          color: eventColor,
+          allDay: true,
+        }));
 
-        console.log(data)
       },
       error: (err) => {
         console.log(err);
       }
     });
   }
-
 }

@@ -2,15 +2,24 @@
   <app-sidenav></app-sidenav>
   <main class="main-content">
     <div class="month-selector">
-      <select
-        id="month"
-        [(ngModel)]="currentMonth"
-        (change)="onMonthChange($event)"
+      <mat-form-field
+        class="select-container"
+        appearance="fill"
+        style="width: 100px"
       >
-        <option *ngFor="let month of months" [value]="month.value">
-          {{ month.name }}
-        </option>
-      </select>
+        <mat-select
+          [(value)]="currentMonth"
+          (selectionChange)="onMonthChange($event)"
+        >
+          <mat-option *ngFor="let month of months" [value]="month.value">
+            {{ month.name.slice(0, 3) }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <h1>{{ selectedMonthName }}</h1>
+
+      <div style="width: 100px; height: 56"></div>
     </div>
 
     <div [ngSwitch]="view" class="calendar-container">

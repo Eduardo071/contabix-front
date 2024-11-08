@@ -13,6 +13,6 @@ import { CommonModule } from '@angular/common';
 })
 export class EventCalendarComponent {
 
-  constructor(@Inject(MAT_DIALOG_DATA) public data: CalendarEvent) {}
+  constructor(@Inject(MAT_DIALOG_DATA) public data: any) {}
 
 }
