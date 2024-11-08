@@ -24,6 +24,7 @@ import { format, parseISO, startOfMonth } from 'date-fns';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSelectChange } from '@angular/material/select';
 import { MONTHS } from '../../shared/constants/constants';
+import {MatCardModule} from '@angular/material/card';
 
 const eventColor = {
   primary: '#1e90ff',
@@ -40,6 +41,7 @@ interface CustomCalendarEvent extends CalendarEvent {
   standalone: true,
   imports: [
     CalendarModule,
+    MatCardModule,
     CommonModule,
     ReactiveFormsModule,
     FormsModule,
