@@ -14,6 +14,7 @@
             aria-label="Example home icon"
             fontIcon="notifications"
             class="material-icons-outlined"
+            [matBadge]="notificationQuantity"
           ></mat-icon>
         </footer>
       </div>
@@ -50,7 +51,7 @@
       </mat-card>
     </section>
   </main>
-  <app-agenda-aside class="agenda-aside"></app-agenda-aside>
+  <app-agenda-aside class="agenda-aside" (notificationQuantity)="receiveNotificationsQuantity($event)"></app-agenda-aside>
 </div>
 
 <app-loading-screen
