@@ -12,6 +12,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { EventCalendarComponent } from '../../components/event-calendar/event-calendar.component';
 import { MatDialog } from '@angular/material/dialog';
 import { ComponentsModule } from "../../components/components.module";
+import { AgendaControllerService } from '../../services/agenda-controller.service';
 
 const eventColor: any = {
   primary: '#1e90ff',
@@ -38,7 +39,11 @@ const eventColor: any = {
 })
 
 export class CalendarComponent {
-  constructor(public dialog: MatDialog) { }
+  constructor(
+    public dialog: MatDialog,
+    private service: AgendaControllerService
+  ) {
+  }
 
   CalendarView = CalendarView;
   view: CalendarView = CalendarView.Month;
@@ -83,10 +88,31 @@ export class CalendarComponent {
       data: event,
     });
   }
-
   onMonthChange(event: Event): void {
     const target = event.target as HTMLSelectElement;
     const month = target.value ? +target.value : 0;
+    const currentYear = new Date().getFullYear();
+
+    // Adiciona zero à esquerda se necessário
+    const monthSelecionado = (month + 1).toString().padStart(2, '0');
+    const dateMonthYearFormatted = `${monthSelecionado}/${currentYear}`;
+
     this.viewDate = new Date(this.viewDate.getFullYear(), month, 1);
+
+    this.service.getEventByMonth(dateMonthYearFormatted).subscribe({
+      next: (data) => {
+        if (data) {
+          data.map((event: any) => {
+            this.events.push(event)
+          })
+        }
+
+        console.log(data)
+      },
+      error: (err) => {
+        console.log(err);
+      }
+    });
   }
+
 }
