@@ -25,14 +25,31 @@ import { LoadingScreenComponent } from '../../components/loading-screen/loading-
 export class HomeComponent implements OnInit {
   loadingText: string = 'Carregando funcionalidades...';
   isLoading: boolean = true;
+  userType!: string;
 
   constructor(private readonly router: Router) {}
+
   ngOnInit(): void {
+    const userData = sessionStorage.getItem('userData');
+
+    if (userData) {
+      const parsedUserData = JSON.parse(userData);
+
+      if (
+        parsedUserData.tipoUsuario &&
+        parsedUserData.tipoUsuario.descricao === 'contador'
+      ) {
+        this.userType = 'contador';
+      } else {
+        this.userType = 'empresa';
+      }
+    }
+
     this.isLoading = false;
   }
 
   handleOpenSolicitation() {
-    this.router.navigate(['open-solicitation']);
+    this.router.navigate(['solicitation']);
   }
   handleOpenCalendar() {
     this.router.navigate(['calendar']);

@@ -24,7 +24,7 @@ export const routes: Routes = [
     canActivate: [authGuard]
   },
   {
-    path: 'open-solicitation',
+    path: 'solicitation',
     component: SolicitationComponent,
     pathMatch: 'full',
     canActivate: [authGuard]
