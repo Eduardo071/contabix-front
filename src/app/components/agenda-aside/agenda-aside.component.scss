@@ -37,6 +37,7 @@
         padding: 2px 6px;
         background-color: #c4eaac;
         border-radius: 6px;
+        min-width: 70%;
         width: 70%;
 
         .title-agenda {
@@ -49,8 +50,8 @@
           white-space: nowrap;
           overflow: hidden;
           text-overflow: ellipsis;
-          width: 100%; /* O <p> ocupará todo o espaço disponível */
-          max-width: 35ch; /* Controle direto do corte */
+          width: 100%;
+          max-width: 35ch;
         }
       }
 

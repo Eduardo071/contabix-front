@@ -9,4 +9,6 @@ import { MatDividerModule } from '@angular/material/divider';
   templateUrl: './agenda-aside.component.html',
   styleUrl: './agenda-aside.component.scss',
 })
-export class AgendaAsideComponent {}
+export class AgendaAsideComponent {
+  
+}
