@@ -6,6 +6,7 @@ import { AgendaAsideComponent } from '../../components/agenda-aside/agenda-aside
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { LoadingScreenComponent } from '../../components/loading-screen/loading-screen.component';
+import { UserDataInterface } from '../../interfaces/user.interface';
 
 @Component({
   selector: 'app-home',
@@ -26,6 +27,7 @@ export class HomeComponent implements OnInit {
   loadingText: string = 'Carregando funcionalidades...';
   isLoading: boolean = true;
   userType!: string;
+  userName!: string;
 
   constructor(private readonly router: Router) {}
 
@@ -34,7 +36,8 @@ export class HomeComponent implements OnInit {
 
     if (userData) {
       const parsedUserData = JSON.parse(userData);
-
+      this.nameFormatter(parsedUserData);
+      
       if (
         parsedUserData.tipoUsuario &&
         parsedUserData.tipoUsuario.descricao === 'contador'
@@ -51,7 +54,22 @@ export class HomeComponent implements OnInit {
   handleOpenSolicitation() {
     this.router.navigate(['solicitation']);
   }
+
   handleOpenCalendar() {
     this.router.navigate(['calendar']);
+  }
+
+  nameFormatter(userData: UserDataInterface) {
+    if (userData) {
+      const fullName = userData.nome;
+      if (fullName) {
+        const nameParts = fullName.split(' ');
+        const firstName = nameParts[0];
+        const secondName = nameParts[1] || '';
+        const thirdName = nameParts[2] ? nameParts[2][0] + '.' : '';
+
+        this.userName = `${firstName} ${secondName} ${thirdName}`.trim();
+      }
+    }
   }
 }

@@ -1,5 +1,9 @@
 <nav class="container">
-  <img src="../../../assets/logo.svg" alt=""/>
+  <img src="../../../assets/logo.svg" alt="Logo"/>
 
-  <mat-icon fontIcon="home" class="icon material-icons-outlined"></mat-icon>
+  <mat-icon fontIcon="home" class="icon material-icons-outlined" (click)="navigateToHome()"></mat-icon>
+
+  <mat-icon fontIcon="calendar_month" class="icon material-icons-outlined" (click)="navigateToCalendar()"></mat-icon>
+
+  <mat-icon fontIcon="exit_to_app" class="icon material-icons-outlined" (click)="logout()"></mat-icon>
 </nav>

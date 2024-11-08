@@ -5,7 +5,7 @@
       <div class="card-welcome-left">
         <header>
           <p>Bem vindo!</p>
-          <h2>Jonh Doe</h2>
+          <h2>{{userName}}</h2>
         </header>
 
         <footer>
@@ -30,10 +30,10 @@
           <mat-icon
             aria-hidden="false"
             aria-label="Example home icon"
-            fontIcon="add"
+            fontIcon="{{ userType === 'contador' ? 'visibility' : 'add' }}"
             class="icon"
           ></mat-icon>
-          <span>Abrir Solicitação</span>
+          <span>{{ userType === 'contador' ? 'Ver Solicitações' : 'Abrir Solicitação' }}</span>
         </button>
       </mat-card>
 
