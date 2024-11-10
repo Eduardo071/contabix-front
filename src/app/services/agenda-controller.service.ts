@@ -14,9 +14,9 @@ export class AgendaControllerService {
   constructor(
     private readonly environmentService: EnvironmentService,
     private readonly http: HttpClient
-  ) {}
+  ) { }
 
-  getEventByMonth(dateMonthYearFormatted: string): Observable<AgendaDataInterface[]> {
+  getEventByMonth(dateMonthYearFormatted: string, idUsuario: number): Observable<AgendaDataInterface[]> {
     const params = {
       dateMonthYearFormatted: dateMonthYearFormatted,
     };
@@ -24,6 +24,16 @@ export class AgendaControllerService {
     const url = this.hostUrl + '/getEventsByMonth';
 
     return this.http.get<AgendaDataInterface[]>(url, { params: params });
+  }
+
+  getEventsByActualDayAndUsuario(idUsuario: number): Observable<AgendaDataInterface[]> {
+    const params = {
+      idUsuario: idUsuario
+    }
+
+    const url = this.hostUrl + '/getEventsByActualDayAndUsuario';
+
+    return this.http.get<AgendaDataInterface[]>(url, { params: params })
   }
 
   getNotificationsByUser(userData: UserDataInterface): Observable<AgendaDataInterface[]> {

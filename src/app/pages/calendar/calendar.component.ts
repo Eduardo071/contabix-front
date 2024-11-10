@@ -24,7 +24,8 @@ import { format, parseISO, startOfMonth } from 'date-fns';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSelectChange } from '@angular/material/select';
 import { MONTHS } from '../../shared/constants/constants';
-import {MatCardModule} from '@angular/material/card';
+import { MatCardModule } from '@angular/material/card';
+import { UserDataInterface } from '../../interfaces/user.interface';
 
 const eventColor = {
   primary: '#1e90ff',
@@ -66,8 +67,16 @@ export class CalendarComponent {
   constructor(
     public dialog: MatDialog,
     private service: AgendaControllerService
-  ) { }
+  ) {
 
+    this.getEventsByActualDayAndUsuario();
+  }
+
+  userData: UserDataInterface = JSON.parse(
+    sessionStorage.getItem('userData') ?? ''
+  );
+
+  eventsToday: any[] = [];
   events: CustomCalendarEvent[] = [];
   CalendarView = CalendarView;
   view: CalendarView = CalendarView.Month;
@@ -76,6 +85,7 @@ export class CalendarComponent {
   months = MONTHS
 
   selectedMonthName: string = this.months[this.currentMonth].name;
+
 
 
   openEventDialog(event: CalendarEvent): void {
@@ -97,21 +107,33 @@ export class CalendarComponent {
   }
 
   getEventByMonth(dateMonthYearFormatted: string) {
-    this.service.getEventByMonth(dateMonthYearFormatted).subscribe({
-      next: (data) => {
-        this.events = data.map((event: any) => ({
-          start: parseISO(event.dataEvento),
-          end: parseISO(event.dataEvento),
-          title: event.tipoEvento,
-          description: event.descricao,
-          color: eventColor,
-          allDay: true,
-        }));
+    if (this.userData.id_usuario)
+      this.service.getEventByMonth(dateMonthYearFormatted, this.userData.id_usuario).subscribe({
+        next: (data) => {
+          this.events = data.map((event: any) => ({
+            start: parseISO(event.dataEvento),
+            end: parseISO(event.dataEvento),
+            title: event.tipoEvento,
+            description: event.descricao,
+            color: eventColor,
+            allDay: true,
+          }));
 
-      },
-      error: (err) => {
-        console.log(err);
-      }
-    });
+        },
+        error: (err) => {
+          console.log(err);
+        }
+      });
+  }
+
+  getEventsByActualDayAndUsuario() {
+    if (this.userData.id_usuario)
+      this.service.getEventsByActualDayAndUsuario(this.userData.id_usuario).subscribe({
+        next: (data) => {
+          this.eventsToday = data
+        }, error: (err) => {
+          console.error(err)
+        }
+      })
   }
 }

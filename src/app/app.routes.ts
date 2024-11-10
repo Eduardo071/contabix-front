@@ -33,7 +33,7 @@ export const routes: Routes = [
     path: 'calendar',
     component: CalendarComponent,
     pathMatch: 'full',
-    // canActivate: [authGuard]
+    canActivate: [authGuard]
   },
   {
     path: '**',
