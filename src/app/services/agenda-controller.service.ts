@@ -31,7 +31,7 @@ export class AgendaControllerService {
       idUsuario: idUsuario
     }
 
-    const url = this.hostUrl + '/getEventsByActualDayAndUsuario';
+    const url = this.hostUrl + '/getTodayEventsByUser';
 
     return this.http.get<AgendaDataInterface[]>(url, { params: params })
   }

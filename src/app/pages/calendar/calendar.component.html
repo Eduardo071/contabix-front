@@ -40,13 +40,16 @@
       <p>SEGUNDA-FEIRA</p>
     </header>
 
-    <section class="events-list">
-      <div class="divisor" *ngFor="let divisor of eventsToday"></div>
-      <div class="event-container" *ngFor="let event of eventsToday">
-        <h2>{{ event.tipoEvento }}</h2>
-
-        <p>{{ event.descricao }}</p>
-      </div>
-    </section>
+    <ul class="agenda-container" *ngIf="eventsToday">
+      <li class="agenda-item" *ngFor="let notification of eventsToday" >
+        <div class="agenda-container-data" (click)="handleClickTodayEvent()">
+          <div class="agenda-infos">
+            <h4 class="title-agenda">{{notification.tipoEvento}}</h4>
+            <p>{{notification.descricao}}</p>
+          </div>
+        </div>
+        <mat-divider class="horizontal-separator"></mat-divider>
+      </li>
+    </ul>
   </mat-card>
 </div>

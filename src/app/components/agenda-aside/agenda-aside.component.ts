@@ -5,6 +5,7 @@ import { AgendaControllerService } from '../../services/agenda-controller.servic
 import { UserDataInterface } from '../../interfaces/user.interface';
 import { AgendaDataInterface } from '../../interfaces/agenda.interface';
 import { CommonModule } from '@angular/common';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-agenda-aside',
@@ -22,7 +23,10 @@ export class AgendaAsideComponent implements OnInit {
   notificationsList!: AgendaDataInterface[];
   message: string | null = null;
 
-  constructor(private readonly agendaService: AgendaControllerService) {}
+  constructor(
+    private readonly agendaService: AgendaControllerService,
+    private readonly router: Router
+  ) {}
 
   ngOnInit(): void {
     this.handleNotifications();
@@ -39,5 +43,10 @@ export class AgendaAsideComponent implements OnInit {
         this.message = err.error.message;
       },
     });
+  }
+
+  handleClickNotification() {
+    this.router.navigate(['calendar']);
+    // implemente esse método, ele deve REDIRECIONAR PARA O CALENDÁRIO E abrir o modal openEventDialog() com as informações do evento que cliquei
   }
 }

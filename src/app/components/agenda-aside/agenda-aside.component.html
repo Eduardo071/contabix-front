@@ -8,8 +8,8 @@
   </header>
 
   <ul class="agenda-container" *ngIf="notificationsList">
-    <li class="agenda-item" *ngFor="let notification of notificationsList">
-      <div class="agenda-container-data">
+    <li class="agenda-item" *ngFor="let notification of notificationsList" >
+      <div class="agenda-container-data" (click)="handleClickNotification()">
         <div class="agenda-infos">
           <h4 class="title-agenda">{{notification.tipoEvento}}</h4>
           <p>{{notification.descricao}}</p>

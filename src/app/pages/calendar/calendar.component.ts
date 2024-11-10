@@ -4,28 +4,24 @@ import {
   CalendarEventTitleFormatter,
   CalendarModule,
   CalendarUtils,
-  DateAdapter
-} from 'angular-calendar';
-import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
-import {
-  Component,
-} from '@angular/core';
-import {
+  DateAdapter,
   CalendarEvent,
   CalendarView,
 } from 'angular-calendar';
+import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
+import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { EventCalendarComponent } from '../../components/event-calendar/event-calendar.component';
 import { MatDialog } from '@angular/material/dialog';
-import { ComponentsModule } from "../../components/components.module";
+import { ComponentsModule } from '../../components/components.module';
 import { AgendaControllerService } from '../../services/agenda-controller.service';
 import { format, parseISO, startOfMonth } from 'date-fns';
-import { MatSelectModule } from '@angular/material/select';
-import { MatSelectChange } from '@angular/material/select';
+import { MatSelectModule, MatSelectChange } from '@angular/material/select';
 import { MONTHS } from '../../shared/constants/constants';
 import { MatCardModule } from '@angular/material/card';
 import { UserDataInterface } from '../../interfaces/user.interface';
+import { MatDividerModule } from '@angular/material/divider';
 
 const eventColor = {
   primary: '#1e90ff',
@@ -47,28 +43,27 @@ interface CustomCalendarEvent extends CalendarEvent {
     ReactiveFormsModule,
     FormsModule,
     ComponentsModule,
-    MatSelectModule
+    MatSelectModule,
+    MatDividerModule,
   ],
   providers: [
     {
       provide: DateAdapter,
-      useFactory: adapterFactory
+      useFactory: adapterFactory,
     },
     CalendarUtils,
     CalendarA11y,
     CalendarDateFormatter,
-    CalendarEventTitleFormatter
+    CalendarEventTitleFormatter,
   ],
   templateUrl: './calendar.component.html',
-  styleUrl: './calendar.component.scss'
+  styleUrl: './calendar.component.scss',
 })
-
 export class CalendarComponent {
   constructor(
     public dialog: MatDialog,
-    private service: AgendaControllerService
+    private readonly service: AgendaControllerService
   ) {
-
     this.getEventsByActualDayAndUsuario();
   }
 
@@ -82,11 +77,9 @@ export class CalendarComponent {
   view: CalendarView = CalendarView.Month;
   viewDate: Date = new Date();
   currentMonth: number = new Date().getMonth();
-  months = MONTHS
+  months = MONTHS;
 
   selectedMonthName: string = this.months[this.currentMonth].name;
-
-
 
   openEventDialog(event: CalendarEvent): void {
     this.dialog.open(EventCalendarComponent, {
@@ -107,33 +100,41 @@ export class CalendarComponent {
   }
 
   getEventByMonth(dateMonthYearFormatted: string) {
-    if (this.userData.id_usuario)
-      this.service.getEventByMonth(dateMonthYearFormatted, this.userData.id_usuario).subscribe({
-        next: (data) => {
-          this.events = data.map((event: any) => ({
-            start: parseISO(event.dataEvento),
-            end: parseISO(event.dataEvento),
-            title: event.tipoEvento,
-            description: event.descricao,
-            color: eventColor,
-            allDay: true,
-          }));
-
-        },
-        error: (err) => {
-          console.log(err);
-        }
-      });
+    if (this.userData.idUsuario)
+      this.service
+        .getEventByMonth(dateMonthYearFormatted, this.userData.idUsuario)
+        .subscribe({
+          next: (data) => {
+            this.events = data.map((event: any) => ({
+              start: parseISO(event.dataEvento),
+              end: parseISO(event.dataEvento),
+              title: event.tipoEvento,
+              description: event.descricao,
+              color: eventColor,
+              allDay: true,
+            }));
+          },
+          error: (err) => {
+            console.log(err);
+          },
+        });
   }
 
   getEventsByActualDayAndUsuario() {
-    if (this.userData.id_usuario)
-      this.service.getEventsByActualDayAndUsuario(this.userData.id_usuario).subscribe({
-        next: (data) => {
-          this.eventsToday = data
-        }, error: (err) => {
-          console.error(err)
-        }
-      })
+    if (this.userData.idUsuario)
+      this.service
+        .getEventsByActualDayAndUsuario(this.userData.idUsuario)
+        .subscribe({
+          next: (data) => {
+            this.eventsToday = data;
+          },
+          error: (err) => {
+            console.error(err);
+          },
+        });
+  }
+
+  handleClickTodayEvent() {
+    // implemente esse método, ele deve abrir o modal openEventDialog() com as informações do evento que cliquei
   }
 }

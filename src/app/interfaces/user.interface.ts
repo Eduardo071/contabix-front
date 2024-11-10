@@ -3,7 +3,7 @@ export interface UserTypesInterface {
   descricao: string;
 }
 export interface UserDataInterface {
-  id_usuario?: number;
+  idUsuario?: number;
   cnpj?: string;
   email?: string;
   tipoUsuario?: UserTypesInterface;
