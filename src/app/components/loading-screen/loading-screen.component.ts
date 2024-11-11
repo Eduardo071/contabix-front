@@ -21,10 +21,8 @@ export class LoadingScreenComponent implements OnChanges {
       if (!this.show) {
         setTimeout(() => {
           this.fadeOut = true;
-          setTimeout(() => {
-            this.render = false;
-          }, 3100);
-        }, 3000);
+          this.render = false;
+        }, 2500);
       } else {
         this.render = true;
         this.fadeOut = false;

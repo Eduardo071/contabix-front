@@ -187,7 +187,7 @@
         white-space: nowrap;
         overflow: hidden;
         width: 0;
-        animation: typing 3s steps(40, end) forwards, blink 0.5s step-end 3s;
+        animation: typing 2.5s steps(40, end) forwards, blink 0.5s step-end 2.5s;
         border-right: 1px solid black;
       }
 
@@ -208,4 +208,8 @@
       animation: slideInDownTop 1s ease-out forwards;
     }
   }
+}
+
+.hidden {
+  display: none !important;
 }

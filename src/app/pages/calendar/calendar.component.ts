@@ -23,6 +23,8 @@ import { MatCardModule } from '@angular/material/card';
 import { UserDataInterface } from '../../interfaces/user.interface';
 import { MatDividerModule } from '@angular/material/divider';
 import { ActivatedRoute } from '@angular/router';
+import { AgendaDataInterface } from '../../interfaces/agenda.interface';
+import { LoadingScreenComponent } from '../../components/loading-screen/loading-screen.component';
 
 const eventColor = {
   primary: '#1e90ff',
@@ -46,6 +48,7 @@ interface CustomCalendarEvent extends CalendarEvent {
     ComponentsModule,
     MatSelectModule,
     MatDividerModule,
+    LoadingScreenComponent,
   ],
   providers: [
     {
@@ -64,22 +67,25 @@ export class CalendarComponent implements OnInit {
   constructor(
     public dialog: MatDialog,
     private readonly service: AgendaControllerService,
-    private route: ActivatedRoute
+    private readonly route: ActivatedRoute
   ) {
     this.getEventsByActualDayAndUsuario();
   }
 
   ngOnInit(): void {
-    this.route.paramMap.subscribe(params => {
-      const eventId = Number(params.get('id'));
+    this.route.paramMap.subscribe((params) => {
+      const eventId = Number(params.get('idEvent'));
 
-      this.service.getEventById(eventId).subscribe({
-        next: (data: any) => {
-          this.openEventDialog(data)
-        }, error: (err: any) => {
-          console.log(err)
-        }
-      })
+      if (eventId) {
+        this.service.getEventById(eventId).subscribe({
+          next: (data: AgendaDataInterface) => {
+            this.openEventDialog(data);
+            this.isLoading = false;
+          }
+        });
+      } else {
+        this.getEventByMonth(format(this.viewDate, 'MM/yyyy'));
+      }
     });
   }
 
@@ -97,7 +103,10 @@ export class CalendarComponent implements OnInit {
 
   selectedMonthName: string = this.months[this.currentMonth].name;
 
-  openEventDialog(event: CalendarEvent): void {
+  loadingText: string = "Carregando Calendário...";
+  isLoading: boolean = true;
+
+  openEventDialog(event: CalendarEvent | AgendaDataInterface): void {
     this.dialog.open(EventCalendarComponent, {
       data: event,
     });
@@ -129,10 +138,8 @@ export class CalendarComponent implements OnInit {
               color: eventColor,
               allDay: true,
             }));
-          },
-          error: (err) => {
-            console.log(err);
-          },
+            this.isLoading = false;
+          }
         });
   }
 
@@ -143,14 +150,11 @@ export class CalendarComponent implements OnInit {
         .subscribe({
           next: (data) => {
             this.eventsToday = data;
-          },
-          error: (err) => {
-            console.error(err);
-          },
+          }
         });
   }
 
   handleClickTodayEvent(notification: any) {
-    this.openEventDialog(notification)
+    this.openEventDialog(notification);
   }
 }

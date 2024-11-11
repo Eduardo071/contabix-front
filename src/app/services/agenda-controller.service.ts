@@ -19,6 +19,7 @@ export class AgendaControllerService {
   getEventByMonth(dateMonthYearFormatted: string, idUsuario: number): Observable<AgendaDataInterface[]> {
     const params = {
       dateMonthYearFormatted: dateMonthYearFormatted,
+      idUsuario: idUsuario
     };
 
     const url = this.hostUrl + '/getEventsByMonth';
@@ -26,14 +27,14 @@ export class AgendaControllerService {
     return this.http.get<AgendaDataInterface[]>(url, { params: params });
   }
 
-  getEventById(eventId: number): Observable<any> {
+  getEventById(idEvent: number): Observable<AgendaDataInterface> {
     const params = {
-      eventId: eventId,
+      idEvent: idEvent,
     };
 
     const url = this.hostUrl + '/getEventById';
 
-    return this.http.get<any>(url, { params: params });
+    return this.http.get<AgendaDataInterface>(url, { params: params });
   }
 
   getEventsByActualDayAndUsuario(idUsuario: number): Observable<AgendaDataInterface[]> {

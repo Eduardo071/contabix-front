@@ -1,13 +1,13 @@
 <h2 mat-dialog-title class="modal-title">Detalhes do Evento</h2>
 <mat-dialog-content class="modal-content">
-  <p><strong>Título:</strong> {{ data.title }}</p>
+  <p><strong>Título:</strong> {{ data?.title ? data?.title : data?.tipoEvento + ' - ' + data?.solicitante?.nome }}</p>
   <p>
-    <strong>Início:</strong>
-    {{ data.start | date : "EEEE, dd 'de' MMMM 'de' y" : "pt-BR" }}
+    <strong>Data:</strong>
+    {{ data?.start ? (data?.start | date : "EEEE, dd 'de' MMMM 'de' y" : "pt-BR") : (data?.dataEvento | date : "EEEE, dd 'de' MMMM 'de' y" : "pt-BR")}}
   </p>
   <p>
     <strong>Descrição:</strong>
-    {{ data.description }}
+    {{ data?.description ? data?.description : data?.descricao}}
   </p>
 </mat-dialog-content>
 <mat-dialog-actions align="end" class="modal-actions">
