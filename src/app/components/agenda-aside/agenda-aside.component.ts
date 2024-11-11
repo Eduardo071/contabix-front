@@ -26,7 +26,7 @@ export class AgendaAsideComponent implements OnInit {
   constructor(
     private readonly agendaService: AgendaControllerService,
     private readonly router: Router
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.handleNotifications();
@@ -45,8 +45,7 @@ export class AgendaAsideComponent implements OnInit {
     });
   }
 
-  handleClickNotification() {
-    this.router.navigate(['calendar']);
-    // implemente esse método, ele deve REDIRECIONAR PARA O CALENDÁRIO E abrir o modal openEventDialog() com as informações do evento que cliquei
+  handleClickNotification(idEvento: number) {
+    this.router.navigate(['calendar', idEvento]);
   }
 }

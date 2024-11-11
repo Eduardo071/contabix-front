@@ -9,7 +9,7 @@ import {
   CalendarView,
 } from 'angular-calendar';
 import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { EventCalendarComponent } from '../../components/event-calendar/event-calendar.component';
@@ -22,6 +22,7 @@ import { MONTHS } from '../../shared/constants/constants';
 import { MatCardModule } from '@angular/material/card';
 import { UserDataInterface } from '../../interfaces/user.interface';
 import { MatDividerModule } from '@angular/material/divider';
+import { ActivatedRoute } from '@angular/router';
 
 const eventColor = {
   primary: '#1e90ff',
@@ -59,12 +60,27 @@ interface CustomCalendarEvent extends CalendarEvent {
   templateUrl: './calendar.component.html',
   styleUrl: './calendar.component.scss',
 })
-export class CalendarComponent {
+export class CalendarComponent implements OnInit {
   constructor(
     public dialog: MatDialog,
-    private readonly service: AgendaControllerService
+    private readonly service: AgendaControllerService,
+    private route: ActivatedRoute
   ) {
     this.getEventsByActualDayAndUsuario();
+  }
+
+  ngOnInit(): void {
+    this.route.paramMap.subscribe(params => {
+      const eventId = Number(params.get('id'));
+
+      this.service.getEventById(eventId).subscribe({
+        next: (data: any) => {
+          this.openEventDialog(data)
+        }, error: (err: any) => {
+          console.log(err)
+        }
+      })
+    });
   }
 
   userData: UserDataInterface = JSON.parse(
@@ -134,7 +150,7 @@ export class CalendarComponent {
         });
   }
 
-  handleClickTodayEvent() {
-    // implemente esse método, ele deve abrir o modal openEventDialog() com as informações do evento que cliquei
+  handleClickTodayEvent(notification: any) {
+    this.openEventDialog(notification)
   }
 }

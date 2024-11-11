@@ -26,6 +26,16 @@ export class AgendaControllerService {
     return this.http.get<AgendaDataInterface[]>(url, { params: params });
   }
 
+  getEventById(eventId: number): Observable<any> {
+    const params = {
+      eventId: eventId,
+    };
+
+    const url = this.hostUrl + '/getEventById';
+
+    return this.http.get<any>(url, { params: params });
+  }
+
   getEventsByActualDayAndUsuario(idUsuario: number): Observable<AgendaDataInterface[]> {
     const params = {
       idUsuario: idUsuario
