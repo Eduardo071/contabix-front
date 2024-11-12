@@ -29,3 +29,18 @@ export const MONTHS = [
   { name: 'Novembro', value: 10 },
   { name: 'Dezembro', value: 11 },
 ];
+
+export const urgenciaObject = [
+  {
+    key: 'Baixa',
+    value: '24',
+  },
+  {
+    key: 'Media',
+    value: '48',
+  },
+  {
+    key: 'Alta',
+    value: '60',
+  },
+];

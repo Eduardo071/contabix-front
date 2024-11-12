@@ -10,3 +10,16 @@ export interface SolicitacoesDataInterface {
   status: string;
   dataAbertura: Date;
 }
+
+export enum UrgenciaEnum {
+  BAIXA = '24',
+  MEDIA = '48',
+  ALTA = '60',
+}
+
+export enum ServicoEnum {
+  CONTABIL = 'Contábil',
+  FISCAL = 'Fiscal',
+  DOCUMENTOS = 'Documentos',
+  OUTROS = 'Outros',
+}

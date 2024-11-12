@@ -25,11 +25,16 @@ export class AuthenticateUserService {
         userData[key as keyof UserDataInterface] !== undefined &&
         userData[key as keyof UserDataInterface] !== ''
       ) {
-        (cleanedData as any)[key] =
-          userData[key as keyof UserDataInterface];
+        (cleanedData as any)[key] = userData[key as keyof UserDataInterface];
       }
     }
 
     return this.http.post<UserDataInterface>(url, cleanedData);
+  }
+
+  getContadores(): Observable<UserDataInterface[]> {
+    const url = this.hostUrl + '/getContadores';
+
+    return this.http.get<UserDataInterface[]>(url);
   }
 }

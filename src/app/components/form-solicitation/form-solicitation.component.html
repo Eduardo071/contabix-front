@@ -1,0 +1,129 @@
+<form class="form-solicitation" [formGroup]="solicitationForm">
+  <section class="container-top">
+    <section class="container-left-side">
+      <section class="container-column">
+        <mat-form-field class="input-form-field">
+          <mat-label>Assunto</mat-label>
+          <input
+            matInput
+            type="text"
+            placeholder="Assunto"
+            required
+            formControlName="assunto"
+          />
+          <mat-error
+            *ngIf="solicitationForm.get('assunto')?.hasError('required')"
+          >
+            Assunto é obrigatório
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field class="input-form-field textarea-input">
+          <mat-label>Descrição</mat-label>
+          <textarea
+            matInput
+            placeholder="Descrição"
+            required
+            formControlName="descricao"
+          ></textarea>
+          <mat-error
+            *ngIf="solicitationForm.get('descricao')?.hasError('required')"
+          >
+            Descrição é obrigatória
+          </mat-error>
+        </mat-form-field>
+      </section>
+
+      <section class="container-column">
+        <section class="container-row">
+          <mat-form-field class="input-form-field">
+            <mat-label>Serviço</mat-label>
+            <mat-select required formControlName="servico">
+              <mat-option
+                *ngFor="let servico of servicoOptions"
+                [value]="servico"
+              >
+                {{ servico }}
+              </mat-option>
+            </mat-select>
+            <mat-error
+              *ngIf="solicitationForm.get('servico')?.hasError('required')"
+            >
+              Selecione o serviço
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field class="input-form-field">
+            <mat-label>Urgência</mat-label>
+            <mat-select required formControlName="urgencia">
+              <mat-option
+                *ngFor="let urgencia of urgenciaOptions"
+                [value]="urgencia.key"
+              >
+                {{ urgencia.key }}
+              </mat-option>
+            </mat-select>
+            <mat-error
+              *ngIf="solicitationForm.get('urgencia')?.hasError('required')"
+            >
+              Selecione a urgência
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field class="input-form-field">
+            <mat-label>Prazo</mat-label>
+            <input
+              matInput
+              type="text"
+              formControlName="prazo"
+              readonly
+              mask="00/00/0000"
+            />
+          </mat-form-field>
+        </section>
+
+        <mat-form-field class="input-form-field">
+          <mat-label>Contador</mat-label>
+          <mat-select required formControlName="contador">
+            <mat-option
+              *ngFor="let contador of contadoresOptions"
+              [value]="contador"
+            >
+              {{ contador.nome }}
+            </mat-option>
+          </mat-select>
+          <mat-error
+            *ngIf="solicitationForm.get('contador')?.hasError('required')"
+          >
+            Selecione o contador
+          </mat-error>
+        </mat-form-field>
+      </section>
+    </section>
+
+    <section class="container-right-side">
+      <img
+        src="../../../assets/Conceito_de_escritório_em_casa__mulher_trabalhando_em_casa__estudante_ou_freelancer____Vetor_Premium-removebg-preview 1.png"
+        alt="Mulher estudando"
+      />
+    </section>
+  </section>
+
+  <section class="container-bottom">
+    <button
+      mat-button
+      (click)="handleClickSubmitButton()"
+      color="black"
+      class="button-submit"
+      [disabled]="solicitationForm.invalid"
+    >
+      Enviar Solicitação
+    </button>
+  </section>
+</form>
+
+
+<app-loading-screen
+  [loadingText]="loadingText"
+  [show]="isLoading"
+></app-loading-screen>

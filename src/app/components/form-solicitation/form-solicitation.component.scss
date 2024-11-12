@@ -1,0 +1,106 @@
+@keyframes fadeIn {
+  from {
+    opacity: 0.5;
+    filter: brightness(0.7);
+  }
+  to {
+    opacity: 1;
+    filter: brightness(1);
+  }
+}
+
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+    filter: brightness(1);
+  }
+  to {
+    opacity: 0.5;
+    filter: brightness(0.7);
+  }
+}
+
+.form-solicitation {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  .container-top {
+    width: 100%;
+    height: 90vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .container-left-side {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      width: 50%;
+      height: 100%;
+
+      .container-column {
+        width: 80%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+
+        .container-row {
+          display: flex;
+          justify-content: space-between;
+          width: 100%;
+          .input-form-field {
+            width: 30%;
+          }
+        }
+      }
+    }
+    // .container-right-side {
+    //   img {
+    //   }
+    // }
+  }
+
+  .container-bottom {
+    display: flex;
+    width: 100%;
+    height: 10vh;
+    justify-content: center;
+    align-items: center;
+
+    .button-submit:disabled {
+      opacity: 0.5;
+      filter: brightness(0.7);
+      transition: 0.3s opacity filter !important;
+      animation: fadeOut 0.3s forwards ease-in !important;
+    }
+
+    .button-submit {
+      width: 50%;
+      transition: 0.3s opacity filter !important;
+      animation: fadeIn 0.3s forwards ease-out !important;
+    }
+  }
+}
+
+.input-form-field {
+  width: 100%;
+}
+
+.textarea-input {
+  textarea {
+    resize: none !important;
+    max-lines: 11;
+  }
+}
+
+.mat-black {
+  background-color: #18260d !important;
+  color: #fff !important;
+}
+

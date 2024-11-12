@@ -1,1 +1,4 @@
-<p>solicitation works!</p>
+<main class="container">
+  <app-form-solicitation *ngIf="!isContador"></app-form-solicitation>
+  <app-list-solicitations *ngIf="isContador"></app-list-solicitations>
+</main>
