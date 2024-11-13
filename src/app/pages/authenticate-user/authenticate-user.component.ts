@@ -73,12 +73,18 @@ export class AuthenticateUserComponent implements OnInit {
     tiposUsuarioService.getTiposUsuario().subscribe({
       next: (data: UserTypesInterface[]) => {
         this.selectOptions = data;
-      }
+      },
     });
   }
 
   ngOnInit(): void {
     this.setupForm();
+
+    if (this.isLogin && this.usuarioMask === null) {
+      this.userAuthForm.get('usuario')?.valueChanges.subscribe((value) => {
+        this.updateUsuarioMask(value);
+      });
+    }
   }
 
   setupForm(): void {
@@ -152,7 +158,9 @@ export class AuthenticateUserComponent implements OnInit {
           if (this.isLogin) {
             sessionStorage.setItem('userData', JSON.stringify(response));
             this.router.navigate(['/home']);
-            this.sweetAlertService.showSucessToaster('Login realizado com sucesso!');
+            this.sweetAlertService.showSucessToaster(
+              'Login realizado com sucesso!'
+            );
           } else {
             this.sweetAlertService.showSuccess(
               'Cadastro realizado com sucesso! Faça o login para continuar.'

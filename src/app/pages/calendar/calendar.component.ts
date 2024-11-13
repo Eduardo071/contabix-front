@@ -81,7 +81,7 @@ export class CalendarComponent implements OnInit {
           next: (data: AgendaDataInterface) => {
             this.openEventDialog(data);
             this.isLoading = false;
-          }
+          },
         });
       } else {
         this.getEventByMonth(format(this.viewDate, 'MM/yyyy'));
@@ -103,7 +103,7 @@ export class CalendarComponent implements OnInit {
 
   selectedMonthName: string = this.months[this.currentMonth].name;
 
-  loadingText: string = "Carregando Calendário...";
+  loadingText: string = 'Carregando Calendário...';
   isLoading: boolean = true;
 
   openEventDialog(event: CalendarEvent | AgendaDataInterface): void {
@@ -139,7 +139,10 @@ export class CalendarComponent implements OnInit {
               allDay: true,
             }));
             this.isLoading = false;
-          }
+          },
+          error: (error) => {
+            this.isLoading = false;
+          },
         });
   }
 
@@ -150,7 +153,7 @@ export class CalendarComponent implements OnInit {
         .subscribe({
           next: (data) => {
             this.eventsToday = data;
-          }
+          },
         });
   }
 

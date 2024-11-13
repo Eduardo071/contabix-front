@@ -58,9 +58,9 @@
             <mat-select required formControlName="urgencia">
               <mat-option
                 *ngFor="let urgencia of urgenciaOptions"
-                [value]="urgencia.key"
+                [value]="urgencia"
               >
-                {{ urgencia.key }}
+                {{ urgencia }}
               </mat-option>
             </mat-select>
             <mat-error

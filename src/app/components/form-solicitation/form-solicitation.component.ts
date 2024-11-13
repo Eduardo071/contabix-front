@@ -1,4 +1,3 @@
-import { urgenciaObject } from './../../shared/constants/constants';
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import {
@@ -56,7 +55,7 @@ import { LoadingScreenComponent } from '../loading-screen/loading-screen.compone
 export class FormSolicitationComponent implements OnInit {
   solicitationForm!: FormGroup<any>;
   servicoOptions!: string[];
-  urgenciaOptions!: typeof urgenciaObject;
+  urgenciaOptions!: string[];
   contadoresOptions!: UserDataInterface[];
   cliente: number = JSON.parse(sessionStorage.getItem('userData') ?? '');
   prazoDateISO!: Date;
@@ -73,7 +72,7 @@ export class FormSolicitationComponent implements OnInit {
 
   ngOnInit(): void {
     this.servicoOptions = Object.values(ServicoEnum);
-    this.urgenciaOptions = urgenciaObject;
+    this.urgenciaOptions = Object.values(UrgenciaEnum);
     this.initializeForm();
     this.getContadores();
     this.handleUrgenciaChanges();

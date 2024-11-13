@@ -1,0 +1,18 @@
+.container {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  overflow: hidden;
+
+  .sidenav {
+    height: 100%;
+  }
+
+  .form-solicitation,
+  .list-solicitations {
+    width: 95%;
+    min-height: 95vh;
+  }
+}

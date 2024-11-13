@@ -1,1 +1,48 @@
-<p>list-solicitations works!</p>
+<main class="main">
+  <section
+    class="card-solicitation"
+    *ngFor="let solicitation of solicitationList"
+  >
+    <div class="container-row-info">
+      <div class="container-user-info">
+        <h1 class="client-specifications">
+          <span
+            class="client-name"
+            [matTooltip]="
+              solicitation.cliente.nome ? solicitation.cliente.nome : ''
+            "
+            >{{ solicitation.cliente.nome }}</span
+          >
+          -
+          {{
+            solicitation.cliente.cnpj
+              ? (solicitation.cliente.cnpj | mask : "00.000.000/0000-00")
+              : null
+          }}
+        </h1>
+      </div>
+      <span
+        class="status-solicitation"
+        [ngClass]="{
+          'em-aberto': solicitation.status === 'Em Aberto',
+          encerrada: solicitation.status === 'Encerrada',
+          'em-andamento': solicitation.status === 'Em Andamento'
+        }"
+        >{{ solicitation.status | uppercase }}</span
+      >
+    </div>
+    <div class="container-row-inmail">
+      <h2 class="assunto">
+        {{ solicitation.assunto | titlecase }} |
+        {{ solicitation.dataAbertura | date : "dd/MM/yyyy" }} -
+        {{ solicitation.prazo | date : "dd/MM/yyyy" }}
+      </h2>
+      <p class="descricao">{{ solicitation.descricao }}</p>
+    </div>
+  </section>
+</main>
+
+<app-loading-screen
+  [loadingText]="loadingText"
+  [show]="isLoading"
+></app-loading-screen>

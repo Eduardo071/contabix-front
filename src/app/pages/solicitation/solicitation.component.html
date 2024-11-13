@@ -1,4 +1,5 @@
 <main class="container">
-  <app-form-solicitation *ngIf="!isContador"></app-form-solicitation>
-  <app-list-solicitations *ngIf="isContador"></app-list-solicitations>
+  <app-sidenav class="sidenav"></app-sidenav>
+  <app-form-solicitation class="form-solicitation" *ngIf="!isContador"></app-form-solicitation>
+  <app-list-solicitations class="list-solicitations" *ngIf="isContador"></app-list-solicitations>
 </main>

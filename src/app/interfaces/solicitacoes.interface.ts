@@ -1,7 +1,9 @@
+import { UserDataInterface } from "./user.interface";
+
 export interface SolicitacoesDataInterface {
   idSolicitacao: number;
-  idCliente: number;
-  idContador: number;
+  cliente: UserDataInterface;
+  contador: UserDataInterface;
   servico: string;
   urgencia: string;
   prazo: Date;
@@ -12,9 +14,9 @@ export interface SolicitacoesDataInterface {
 }
 
 export enum UrgenciaEnum {
-  BAIXA = '24',
-  MEDIA = '48',
-  ALTA = '60',
+  BAIXA = 'Baixa',
+  MEDIA = 'Media',
+  ALTA = 'Alta',
 }
 
 export enum ServicoEnum {

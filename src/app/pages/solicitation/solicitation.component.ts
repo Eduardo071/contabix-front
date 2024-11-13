@@ -3,11 +3,12 @@ import { FormSolicitationComponent } from '../../components/form-solicitation/fo
 import { ListSolicitationsComponent } from '../../components/list-solicitations/list-solicitations.component';
 import { UserDataInterface } from '../../interfaces/user.interface';
 import { CommonModule } from '@angular/common';
+import { ComponentsModule } from "../../components/components.module";
 
 @Component({
   selector: 'app-solicitation',
   standalone: true,
-  imports: [FormSolicitationComponent, ListSolicitationsComponent, CommonModule],
+  imports: [FormSolicitationComponent, ListSolicitationsComponent, CommonModule, ComponentsModule],
   templateUrl: './solicitation.component.html',
   styleUrl: './solicitation.component.scss',
 })
