@@ -1,0 +1,40 @@
+.container {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  overflow: hidden;
+
+  .sidenav {
+    height: 100%;
+  }
+
+  .form-solicitation,
+  .list-solicitations {
+    width: 95%;
+    min-height: 95vh;
+  }
+}
+
+.container-content{
+  margin: 0 auto;
+  display: flex;
+  padding-top: 3rem;
+  flex-direction: column;
+  width: 85%;
+
+}
+
+table {
+  width: 100%;
+}
+
+.mat-mdc-form-field {
+  font-size: 14px;
+  width: 100%;
+}
+
+td, th {
+  width: 25%;
+}

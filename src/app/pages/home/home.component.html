@@ -49,6 +49,18 @@
           <span>Minha agenda</span>
         </button>
       </mat-card>
+
+      <mat-card appearance="outlined" class="button-container">
+        <button class="button-item" (click)="goToCompanyAccountantsList()">
+          <mat-icon
+            aria-hidden="false"
+            aria-label="Example home icon"
+            fontIcon="{{ userType === 'contador' ? 'domain' : 'groups' }}"
+            class="icon"
+          ></mat-icon>
+          <span>{{ userType === 'contador' ? 'Empresas' : 'Contadores' }}</span>
+        </button>
+      </mat-card>
     </section>
   </main>
   <app-agenda-aside class="agenda-aside" (notificationQuantity)="receiveNotificationsQuantity($event)"></app-agenda-aside>
