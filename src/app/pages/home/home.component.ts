@@ -32,7 +32,7 @@ export class HomeComponent implements OnInit {
   userName!: string;
   notificationQuantity: number = 0;
 
-  constructor(private readonly router: Router) {}
+  constructor(private readonly router: Router) { }
 
   ngOnInit(): void {
     const userData = sessionStorage.getItem('userData');
@@ -56,6 +56,10 @@ export class HomeComponent implements OnInit {
 
   handleOpenSolicitation() {
     this.router.navigate(['solicitation']);
+  }
+
+  goToCompanyAccountantsList() {
+    this.router.navigate(['lista/contadores-empresas']);
   }
 
   handleOpenCalendar() {

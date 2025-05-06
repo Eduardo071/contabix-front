@@ -4,6 +4,7 @@ import { AuthenticateUserComponent } from './pages/authenticate-user/authenticat
 import { SolicitationComponent } from './pages/solicitation/solicitation.component';
 import { CalendarComponent } from './pages/calendar/calendar.component';
 import { authGuard, notLoggedGuard } from './shared/guards/auth.guard';
+import { ListContadoresEmpresasComponent } from './pages/list-contadores-empresas/list-contadores-empresas.component';
 
 export const routes: Routes = [
   {
@@ -38,6 +39,12 @@ export const routes: Routes = [
   {
     path: 'calendar',
     component: CalendarComponent,
+    pathMatch: 'full',
+    canActivate: [authGuard]
+  },
+  {
+    path: 'lista/contadores-empresas',
+    component: ListContadoresEmpresasComponent,
     pathMatch: 'full',
     canActivate: [authGuard]
   },
