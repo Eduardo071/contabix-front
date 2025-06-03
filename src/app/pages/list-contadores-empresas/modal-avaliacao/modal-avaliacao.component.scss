@@ -1,0 +1,41 @@
+.container{
+  padding-top: 6px;
+  height: 100%;
+
+  header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 4px;
+
+    .button-close{
+      margin-top: -15px;
+      border: 0;
+      background: transparent;
+      cursor: pointer;
+      font-size: 18px;
+    }
+  }
+
+  h2{
+    text-align: center;
+  }
+}
+
+.rating {
+  display: flex;
+  gap: 8px;
+
+  justify-content: center;
+  align-items: center;
+  margin-top: 8px;
+  mat-icon {
+     // ⬅️ aumenta o tamanho da estrela
+    cursor: pointer;
+    color: #ccc;
+
+    &.filled {
+      color: #FFD700; // amarelo ouro para estrelas preenchidas
+    }
+  }
+}

@@ -1,0 +1,19 @@
+<div class="container">
+  <header>
+    <button style="opacity: 0;">X</button>
+
+    <h2>Deixa sua Avaliação</h2>
+
+    <button class="button-close" (click)="closeModal()">X</button>
+  </header>
+  <div class="rating">
+    <mat-icon
+      *ngFor="let star of stars; let i = index"
+      (click)="setRating(i + 1)"
+      [class.filled]="i < rating"
+      matTooltipPosition="above"
+    >
+      {{ i < rating ? "star" : "star_border" }}
+    </mat-icon>
+  </div>
+</div>
