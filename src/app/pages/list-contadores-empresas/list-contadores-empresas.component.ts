@@ -9,6 +9,10 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
+import { ListaContadoresEmpresasService } from '../../services/lista-contadores-empresas.service';
+import { MatDialog } from '@angular/material/dialog';
+import { ModalAvaliacaoComponent } from './modal-avaliacao/modal-avaliacao.component';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar'; // Importa o MatSnackBar
 
 @Component({
   selector: 'app-list-contadores-empresas',
@@ -22,7 +26,8 @@ import { MatButtonModule } from '@angular/material/button';
     MatSortModule,
     MatIconModule,
     MatButtonModule,
-    MatPaginatorModule
+    MatPaginatorModule,
+    MatSnackBarModule // Inclui o MatSnackBar aqui
   ],
   templateUrl: './list-contadores-empresas.component.html',
   styleUrl: './list-contadores-empresas.component.scss'
@@ -30,23 +35,26 @@ import { MatButtonModule } from '@angular/material/button';
 export class ListContadoresEmpresasComponent implements OnInit {
   isContador!: boolean;
 
-  displayedColumns: string[] = ['name', 'acoes',];
-  dataSource!: MatTableDataSource<UserData>;
+  displayedColumns: string[] = ['nome', 'acoes'];
+  dataSource!: MatTableDataSource<any>;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
-
 
   userData: UserDataInterface = JSON.parse(
     sessionStorage.getItem('userData') ?? ''
   );
 
-  constructor() {
-    // Create 100 users
-    const users = Array.from({ length: 100 }, (_, k) => createNewUser(k + 1));
-
-    // Assign the data to the data source for the table to render
-    this.dataSource = new MatTableDataSource(users);
+  constructor(
+    private service: ListaContadoresEmpresasService,
+    private dialog: MatDialog,
+    private snackBar: MatSnackBar // Injeta o MatSnackBar
+  ) {
+    // if (this.isContador) {
+    //   this.buscarEmpresa();
+    // } else {
+    //   this.buscarContadores();
+    // }
   }
 
   ngAfterViewInit() {
@@ -63,12 +71,16 @@ export class ListContadoresEmpresasComponent implements OnInit {
     }
   }
 
-
   ngOnInit(): void {
     if (this.userData) {
-      this.userData.tipoUsuario?.descricao === 'contador'
-        ? this.setUserType('contador')
-        : this.setUserType('empresa');
+
+      if(this.userData.tipoUsuario?.descricao === 'contador'){
+        this.setUserType('contador')
+        this.buscarEmpresa()
+      } else {
+        this.setUserType('empresa');
+        this.buscarContadores()
+      }
     }
   }
 
@@ -79,49 +91,56 @@ export class ListContadoresEmpresasComponent implements OnInit {
       this.isContador = false;
     }
   }
-}
 
+  buscarContadores() {
+    this.service.getContadores().subscribe({
+      next: (data) => {
+        console.log(data);
+        this.dataSource = new MatTableDataSource(data);
+        this.dataSource.paginator = this.paginator;
+        this.dataSource.sort = this.sort;
+      },
+      error: (error) => {
+        console.error(error);
+      }
+    });
+  }
 
-export interface UserData {
-  id: string;
-  name: string;
-  progress: string;
-  fruit: string;
-}
+  buscarEmpresa() {
+    this.service.getEmpresas().subscribe({
+      next: (data) => {
+        console.log(data);
+        this.dataSource = new MatTableDataSource(data);
+        this.dataSource.paginator = this.paginator;
+        this.dataSource.sort = this.sort;
+      },
+      error: (error) => {
+        console.error(error);
+      }
+    });
+  }
 
-const NAMES: string[] = [
-  'Maia',
-  'Asher',
-  'Olivia',
-  'Atticus',
-  'Amelia',
-  'Jack',
-  'Charlotte',
-  'Theodore',
-  'Isla',
-  'Oliver',
-  'Isabella',
-  'Jasper',
-  'Cora',
-  'Levi',
-  'Violet',
-  'Arthur',
-  'Mia',
-  'Thomas',
-  'Elizabeth',
-];
+  copiarEmail(email: string): void {
+    navigator.clipboard.writeText(email).then(() => {
+      console.log('E-mail copiado:', email);
+      this.snackBar.open('E-mail copiado para a área de transferência!', 'Fechar', {
+        duration: 2000, // 2 segundos de duração
+        verticalPosition: 'top', // Exibe no topo da tela
+        horizontalPosition: 'center' // Exibe centralizado
+      });
+    }).catch(err => {
+      console.error('Erro ao copiar o e-mail:', err);
+    });
+  }
 
-/** Builds and returns a new User. */
-function createNewUser(id: number): any {
-  const name =
-    NAMES[Math.round(Math.random() * (NAMES.length - 1))] +
-    ' ' +
-    NAMES[Math.round(Math.random() * (NAMES.length - 1))].charAt(0) +
-    '.';
-
-  return {
-    id: id.toString(),
-    name: name,
-    progress: Math.round(Math.random() * 100).toString(),
-  };
+  abrirModalAvalicao(data?: any) {
+    const modal = this.dialog.open(ModalAvaliacaoComponent, {
+      data: {
+        id: data.idUsuario,
+        avaliacao: data.avaliacao
+      },
+      width: '400px',
+      height: '100px',
+    });
+  }
 }
