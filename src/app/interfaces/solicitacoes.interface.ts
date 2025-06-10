@@ -11,6 +11,7 @@ export interface SolicitacoesDataInterface {
   descricao: string;
   status: string;
   dataAbertura: Date;
+  arquivoUrl: string;
 }
 
 export enum UrgenciaEnum {

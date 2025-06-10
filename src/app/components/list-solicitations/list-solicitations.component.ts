@@ -22,7 +22,7 @@ export class ListSolicitationsComponent implements OnInit {
     sessionStorage.getItem('userData') ?? ''
   );
 
-  constructor(private readonly solicitationService: SolicitationService) {}
+  constructor(private readonly solicitationService: SolicitationService) { }
 
   ngOnInit(): void {
     this.getSolicitationsByUser();
@@ -35,5 +35,33 @@ export class ListSolicitationsComponent implements OnInit {
         this.isLoading = false;
       },
     });
+  }
+
+  // baixarArquivo(url: string) {
+  //   const nome = this.getNomeArquivo(url);
+  //   const link = document.createElement('a');
+  //   link.href = url;
+  //   link.download = nome;
+  //   document.body.appendChild(link);
+  //   link.click();
+  //   document.body.removeChild(link);
+  // }
+
+  getNomeArquivo(url: string): string {
+    const decodedUrl = decodeURIComponent(url); // transforma %20 em espaço
+    const partes = decodedUrl.split('/');
+    const ultimaParte = partes[partes.length - 1]; // "arquivos/login documento.pdf?alt=media"
+    const nomeComQuery = ultimaParte.split('?')[0]; // remove ?alt=media
+    return nomeComQuery.split('%2F').pop() ?? 'arquivo';
+  }
+
+  baixarArquivo(url: string) {
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = ''; // força o download
+    link.target = '_blank'; // abre a caixa "Salvar como..."
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
   }
 }
