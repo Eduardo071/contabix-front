@@ -178,7 +178,7 @@ export class AuthenticateUserComponent implements OnInit {
     const usuario = this.userAuthForm.get('usuario')?.value;
     return {
       email: this.usuarioMask ? undefined : usuario,
-      cnpj: this.usuarioMask ? usuario : undefined,
+      cnpj: this.usuarioMask ? this.limparCNPJ(usuario) : undefined,
       senha: this.userAuthForm.get('senha')?.value,
     };
   }
@@ -191,5 +191,9 @@ export class AuthenticateUserComponent implements OnInit {
       email: this.userAuthForm.get('email')?.value,
       cnpj: this.userAuthForm.get('cnpj')?.value,
     };
+  }
+
+  limparCNPJ(cnpj: string): string {
+    return cnpj.replace(/\D/g, '');
   }
 }
