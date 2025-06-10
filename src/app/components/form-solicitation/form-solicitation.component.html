@@ -98,6 +98,20 @@
             Selecione o contador
           </mat-error>
         </mat-form-field>
+
+        <div class="input-form-field file-upload-wrapper">
+          <label for="file" class="file-upload-label">Anexar arquivo</label>
+          <input
+            type="file"
+            id="file"
+            class="file-input"
+            (change)="onFileSelected($event)"
+            accept=".zip,.docx,.xlsx,.csv,.rar,.pdf"
+          />
+          <p class="file-name" *ngIf="selectedFileName">
+            {{ selectedFileName }}
+          </p>
+        </div>
       </section>
     </section>
 
@@ -121,7 +135,6 @@
     </button>
   </section>
 </form>
-
 
 <app-loading-screen
   [loadingText]="loadingText"

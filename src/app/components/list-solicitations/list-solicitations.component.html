@@ -21,15 +21,19 @@
           }}
         </h1>
       </div>
-      <span
-        class="status-solicitation"
-        [ngClass]="{
-          'em-aberto': solicitation.status === 'Em Aberto',
-          encerrada: solicitation.status === 'Encerrada',
-          'em-andamento': solicitation.status === 'Em Andamento'
-        }"
-        >{{ solicitation.status | uppercase }}</span
-      >
+
+      <div class="container-buttons">
+        <button class="download-button" *ngIf="solicitation.arquivoUrl !== null"  (click)="baixarArquivo(solicitation.arquivoUrl)">Baixar arquivo</button>
+        <span
+          class="status-solicitation"
+          [ngClass]="{
+            'em-aberto': solicitation.status === 'Em Aberto',
+            encerrada: solicitation.status === 'Encerrada',
+            'em-andamento': solicitation.status === 'Em Andamento'
+          }"
+          >{{ solicitation.status | uppercase }}</span
+        >
+      </div>
     </div>
     <div class="container-row-inmail">
       <h2 class="assunto">

@@ -62,13 +62,16 @@ export class FormSolicitationComponent implements OnInit {
   loadingText: string = 'Carregando formulário...';
   isLoading: boolean = true;
 
+  selectedFileName: string = '';
+  selectedFile!: File;
+
   constructor(
     private readonly fb: FormBuilder,
     private readonly userService: AuthenticateUserService,
     private readonly solicitationService: SolicitationService,
     private readonly alertService: SweetAlertService,
     private readonly router: Router
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.servicoOptions = Object.values(ServicoEnum);
@@ -130,7 +133,7 @@ export class FormSolicitationComponent implements OnInit {
     });
 
     this.solicitationService
-      .postNewSolicitation(this.solicitationForm.value)
+      .postNewSolicitation(this.solicitationForm.value,  this.selectedFile)
       .subscribe({
         next: (response) => {
           this.alertService.showSuccess(
@@ -143,4 +146,13 @@ export class FormSolicitationComponent implements OnInit {
         },
       });
   }
+
+  onFileSelected(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files.length > 0) {
+      this.selectedFile = input.files[0];
+      this.selectedFileName = this.selectedFile.name;
+    }
+  }
+  
 }

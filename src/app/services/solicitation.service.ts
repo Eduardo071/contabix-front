@@ -23,9 +23,14 @@ export class SolicitationService {
     return this.http.post<SolicitacoesDataInterface[]>(url, user);
   }
 
-  postNewSolicitation(solicitation: SolicitacoesDataInterface): Observable<SolicitacoesDataInterface> {
+
+  postNewSolicitation(solicitation: SolicitacoesDataInterface, arquivo: File): Observable<SolicitacoesDataInterface> {
+    const formData: FormData = new FormData();
+    formData.append('solicitation', new Blob([JSON.stringify(solicitation)], { type: 'application/json' }));
+    formData.append('file', arquivo);
+
     const url = this.hostUrl + '/postNewSolicitation';
 
-    return this.http.post<SolicitacoesDataInterface>(url, solicitation);
+    return this.http.post<SolicitacoesDataInterface>(url, formData);
   }
 }
