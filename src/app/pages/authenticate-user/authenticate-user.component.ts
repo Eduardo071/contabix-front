@@ -134,7 +134,7 @@ export class AuthenticateUserComponent implements OnInit {
       nome: [null, Validators.required],
       senha: [null, Validators.required],
       tipoUsuario: [null, Validators.required],
-      email: [null],
+      email: [null, Validators.required],
       cnpj: [null],
     });
   }

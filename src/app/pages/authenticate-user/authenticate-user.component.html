@@ -55,7 +55,7 @@
 
         <mat-form-field
           class="input-form-field"
-          *ngIf="!isLogin && userAuthForm.get('tipoUsuario')?.value?.idTipoUsuario == 1"
+          *ngIf="!isLogin && (userAuthForm.get('tipoUsuario')?.value?.idTipoUsuario == 1 || userAuthForm.get('tipoUsuario')?.value?.idTipoUsuario == 2)"
         >
           <mat-label>Email</mat-label>
           <input
