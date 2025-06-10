@@ -9,47 +9,55 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 @Component({
   selector: 'app-modal-avaliacao',
   standalone: true,
-  imports: [
-    MatIconModule,
-    CommonModule,
-    MatTooltipModule
-  ],
+  imports: [MatIconModule, CommonModule, MatTooltipModule],
   templateUrl: './modal-avaliacao.component.html',
-  styleUrl: './modal-avaliacao.component.scss'
+  styleUrl: './modal-avaliacao.component.scss',
 })
 export class ModalAvaliacaoComponent {
-
   rating = 0;
   stars = Array(5).fill(0);
-
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
     private service: ListaContadoresEmpresasService,
     public dialogRef: MatDialogRef<ModalAvaliacaoComponent>,
-    private snackBar: MatSnackBar // Injeta o MatSnackBar
+    private snackBar: MatSnackBar
   ) {
-    this.rating = data.avaliacao ?? 0
-    console.log(data)
+    this.rating = data.avaliacao ?? 0;
+    console.log(data);
   }
 
   setRating(value: number) {
     this.rating = value;
+  }
 
+  enviarAvaliacao() {
+    if (this.rating === 0) {
+      this.snackBar.open('Por favor, selecione uma nota.', 'Fechar', {
+        duration: 2000,
+        verticalPosition: 'top',
+        horizontalPosition: 'center',
+      });
+      return;
+    }
 
-    this.service.avaliar(value, this.data.id).subscribe({
+    this.service.avaliar(this.rating, this.data.id).subscribe({
       next: () => {
-
-        this.snackBar.open('Avaliação enviada!', 'Fechar', {
-          duration: 2000, // 2 segundos de duração
-          verticalPosition: 'top', // Exibe no topo da tela
-          horizontalPosition: 'center' // Exibe centralizado
+        this.snackBar.open('Avaliação enviada com sucesso!', 'Fechar', {
+          duration: 2000,
+          verticalPosition: 'top',
+          horizontalPosition: 'center',
         });
+        this.dialogRef.close();
       },
       error: () => {
-
-      }
-    })
+        this.snackBar.open('Erro ao enviar avaliação.', 'Fechar', {
+          duration: 2000,
+          verticalPosition: 'top',
+          horizontalPosition: 'center',
+        });
+      },
+    });
   }
 
   closeModal() {

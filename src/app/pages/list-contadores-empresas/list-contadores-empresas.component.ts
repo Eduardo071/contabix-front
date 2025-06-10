@@ -27,10 +27,10 @@ import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar'; //
     MatIconModule,
     MatButtonModule,
     MatPaginatorModule,
-    MatSnackBarModule // Inclui o MatSnackBar aqui
+    MatSnackBarModule, // Inclui o MatSnackBar aqui
   ],
   templateUrl: './list-contadores-empresas.component.html',
-  styleUrl: './list-contadores-empresas.component.scss'
+  styleUrl: './list-contadores-empresas.component.scss',
 })
 export class ListContadoresEmpresasComponent implements OnInit {
   isContador!: boolean;
@@ -73,13 +73,12 @@ export class ListContadoresEmpresasComponent implements OnInit {
 
   ngOnInit(): void {
     if (this.userData) {
-
-      if(this.userData.tipoUsuario?.descricao === 'contador'){
-        this.setUserType('contador')
-        this.buscarEmpresa()
+      if (this.userData.tipoUsuario?.descricao === 'contador') {
+        this.setUserType('contador');
+        this.buscarEmpresa();
       } else {
         this.setUserType('empresa');
-        this.buscarContadores()
+        this.buscarContadores();
       }
     }
   }
@@ -102,7 +101,7 @@ export class ListContadoresEmpresasComponent implements OnInit {
       },
       error: (error) => {
         console.error(error);
-      }
+      },
     });
   }
 
@@ -116,31 +115,39 @@ export class ListContadoresEmpresasComponent implements OnInit {
       },
       error: (error) => {
         console.error(error);
-      }
+      },
     });
   }
 
   copiarEmail(email: string): void {
-    navigator.clipboard.writeText(email).then(() => {
-      console.log('E-mail copiado:', email);
-      this.snackBar.open('E-mail copiado para a área de transferência!', 'Fechar', {
-        duration: 2000, // 2 segundos de duração
-        verticalPosition: 'top', // Exibe no topo da tela
-        horizontalPosition: 'center' // Exibe centralizado
+    navigator.clipboard
+      .writeText(email)
+      .then(() => {
+        console.log('E-mail copiado:', email);
+        this.snackBar.open(
+          'E-mail copiado para a área de transferência!',
+          'Fechar',
+          {
+            duration: 2000, // 2 segundos de duração
+            verticalPosition: 'top', // Exibe no topo da tela
+            horizontalPosition: 'center', // Exibe centralizado
+          }
+        );
+      })
+      .catch((err) => {
+        console.error('Erro ao copiar o e-mail:', err);
       });
-    }).catch(err => {
-      console.error('Erro ao copiar o e-mail:', err);
-    });
   }
 
   abrirModalAvalicao(data?: any) {
     const modal = this.dialog.open(ModalAvaliacaoComponent, {
       data: {
         id: data.idUsuario,
-        avaliacao: data.avaliacao
+        avaliacao: data.avaliacao,
       },
-      width: '400px',
-      height: '100px',
+      width: '25vw',
+      height: '10vw',
+      panelClass: 'custom-modal',
     });
   }
 }
