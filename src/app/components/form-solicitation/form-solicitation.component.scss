@@ -100,3 +100,59 @@
   color: #fff !important;
 }
 
+.file-upload-wrapper {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  margin-top: 16px;
+
+  .file-upload-label {
+    font-size: 12px;
+    color: #6b7280; // cinza tipo mat-label
+    margin-bottom: 4px;
+  }
+
+  .file-input {
+    padding: 12px;
+    border: 1px solid #d1d5db;
+    border-radius: 4px;
+    font-size: 14px;
+    background-color: #fff;
+    color: #111827;
+    transition: border-color 0.2s ease;
+    cursor: pointer;
+
+    &::-webkit-file-upload-button {
+      visibility: hidden;
+    }
+
+    &::before {
+      content: "Selecionar arquivo";
+      display: inline-block;
+      background-color: #111827;
+      color: #fff;
+      padding: 6px 12px;
+      border-radius: 4px;
+      font-size: 13px;
+      cursor: pointer;
+      margin-right: 10px;
+    }
+
+    &:hover {
+      border-color: #4b5563;
+    }
+
+    &:focus {
+      outline: none;
+      border-color: #3b82f6;
+      box-shadow: 0 0 0 1px #3b82f6;
+    }
+  }
+
+  .file-name {
+    margin-top: 6px;
+    font-size: 13px;
+    color: #374151;
+    word-break: break-word;
+  }
+}
